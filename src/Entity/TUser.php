@@ -48,6 +48,9 @@ class TUser implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'idxUser', targetEntity: TOrder::class, orphanRemoval: true)]
     private Collection $tOrders;
 
+    #[ORM\Column(length: 15)]
+    private ?string $useNumberPhone = null;
+
     public function __construct()
     {
         $this->tCarts = new ArrayCollection();
@@ -247,6 +250,30 @@ class TUser implements UserInterface, PasswordAuthenticatedUserInterface
                 $tOrder->setIdxUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUseNumberPhone(): ?string
+    {
+        return $this->useNumberPhone;
+    }
+
+    public function setUseNumberPhone(string $useNumberPhone): self
+    {
+        $this->useNumberPhone = $useNumberPhone;
+
+        return $this;
+    }
+
+    public function getIdxTitle(): ?TTitle
+    {
+        return $this->idxTitle;
+    }
+
+    public function setIdxTitle(?TTitle $idxTitle): self
+    {
+        $this->idxTitle = $idxTitle;
 
         return $this;
     }

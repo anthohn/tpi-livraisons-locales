@@ -26,6 +26,9 @@ class TProduct
     #[ORM\Column(type: Types::TEXT)]
     private ?string $proDescription = null;
 
+    #[ORM\Column]
+    private ?bool $proIsActive = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +78,18 @@ class TProduct
     public function setProDescription(string $proDescription): self
     {
         $this->proDescription = $proDescription;
+
+        return $this;
+    }
+
+    public function isProIsActive(): ?bool
+    {
+        return $this->proIsActive;
+    }
+
+    public function setProIsActive(bool $proIsActive): self
+    {
+        $this->proIsActive = $proIsActive;
 
         return $this;
     }

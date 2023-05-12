@@ -16,7 +16,7 @@ class TCart
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?tProduct $idxProduct = null;
+    private ?TProduct $idxProduct = null;
 
     #[ORM\ManyToOne(inversedBy: 'tCarts')]
     #[ORM\JoinColumn(nullable: false)]

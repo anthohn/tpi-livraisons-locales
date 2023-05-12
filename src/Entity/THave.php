@@ -19,7 +19,7 @@ class THave
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?tproduct $idxProduct = null;
+    private ?TProduct $idxProduct = null;
 
     public function getId(): ?int
     {
@@ -38,7 +38,7 @@ class THave
         return $this;
     }
 
-    public function getIdxProduct(): ?tproduct
+    public function getIdxProduct(): ?TProduct
     {
         return $this->idxProduct;
     }

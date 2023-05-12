@@ -22,7 +22,7 @@ class TOrder
 
     #[ORM\ManyToOne(inversedBy: 'tOrders')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?tstatus $idxStatus = null;
+    private ?TStatus $idxStatus = null;
 
     #[ORM\ManyToOne(inversedBy: 'tOrders')]
     #[ORM\JoinColumn(nullable: false)]
@@ -34,7 +34,7 @@ class TOrder
 
     #[ORM\ManyToOne(inversedBy: 'torders')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?ttime $idxTime = null;
+    private ?TTime $idxTime = null;
 
     public function getId(): ?int
     {

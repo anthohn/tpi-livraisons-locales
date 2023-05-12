@@ -41,6 +41,10 @@ class TAddress
     #[ORM\OneToMany(mappedBy: 'idxAddress', targetEntity: TOrder::class)]
     private Collection $tOrders;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?ttitle $idxTitle = null;
+
     public function __construct()
     {
         $this->tOrders = new ArrayCollection();
@@ -161,6 +165,18 @@ class TAddress
                 $tOrder->setIdxAddress(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIdxTitle(): ?ttitle
+    {
+        return $this->idxTitle;
+    }
+
+    public function setIdxTitle(?ttitle $idxTitle): self
+    {
+        $this->idxTitle = $idxTitle;
 
         return $this;
     }
