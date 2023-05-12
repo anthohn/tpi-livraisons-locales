@@ -8,7 +8,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController extends AbstractController
 {
-    #[Route('/', name: 'app_home')]
+    #[Route('/', name: 'home')]
+    public function Redirection()
+    {
+        return $this->redirectToRoute('app_home');
+    }
+
+    #[Route('/accueil', name: 'app_home')]
     public function index(): Response
     {
         return $this->render('product/index.html.twig', [
@@ -16,10 +22,10 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/product', name: 'app_product')]
+    #[Route('/produits', name: 'app_product')]
     public function product(): Response
     {
-        return $this->render('product/index.html.twig', [
+        return $this->render('product/product.html.twig', [
             'controller_name' => 'ProductController',
         ]);
     }
