@@ -15,7 +15,7 @@
     </head>
     <body>
         {# NabBar #}
-        <nav class="bg-gray-300 border-gray-200 dark:border-gray-600 dark:bg-grays-900">
+        <nav class="bg-stone-200 border-gray-200 dark:border-gray-600 dark:bg-grays-900">
             <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl px-4 md:px-6 py-2.5">
                 <a href="{{ path('home') }}" class="flex items-center">
                     <span class="self-center text-3xl font-extrabold whitespace-nowrap dark:text-white">Ferme Cretegny</span>
@@ -59,10 +59,10 @@
                 <div id="mega-menu-full" class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1">
                     <ul class="flex flex-col p-4 mt-4 border rounded-lg md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0">
                         <li>
-                            <a href="#">Accueil</a>
+                            <a href="{{ path('home') }}">Accueil</a>
                         </li>
                         <li>
-                            <a href="#">Produits</a>
+                            <a href="{{ path('app_product') }}">Produits</a>
                         </li>
                     </ul>
                 </div>

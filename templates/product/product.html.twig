@@ -1,20 +1,45 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProductController!{% endblock %}
+{% block title %}Cretegny - Produits{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Helloa {{ controller_name }}! ✅</h1>
+    <div class="mt-32">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/anthohn/Documents/TPI-livraisons-locales/src/Controller/ProductController.php'|file_link(0) }}">src/Controller/ProductController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/anthohn/Documents/TPI-livraisons-locales/templates/product/index.html.twig'|file_link(0) }}">templates/product/index.html.twig</a></code></li>
-    </ul>
-</div>
+        <h1 class="text-3xl font-semibold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-3xl dark:text-white"><span class="underline underline-offset-4 decoration-8 decoration-green-400 dark:decoration-blue-500">Notre sélection de produits frais :</span></h1>
+
+        <div class="mt-16 grid gap-8 mb-6 lg:mb-16 md:grid-cols-3">
+            {% for product in products %}
+
+                <div class="flex justify-center">
+                    <div class="block max-w-sm rounded-lg bg-stone-200 shadow-lg dark:bg-neutral-700 border-solide border-2 border-zinc-600">
+
+                        <a href="#">
+                            <img src="https://place-hold.it/400x300" alt="product picture">
+                        </a>
+
+                        <div class="flex justify-between">
+                            <div class="p-5">
+                                <h5 class="text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">{{ product.proName }}</h5>
+                                <h5 class="font-medium leading-tight text-neutral-800 dark:text-neutral-50">CHF {{ product.proPrice|number_format(2, '.', ',') }} pièce</h5>
+                                
+                            </div>
+                            <div class="p-5 mt-10">
+                                <a href="#">
+                                    <div class="block rounded-lg bg-green-400 p-2"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-basket" viewBox="0 0 16 16">
+                                        <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1v4.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 13.5V9a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h1.217L5.07 1.243a.5.5 0 0 1 .686-.172zM2 9v4.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V9H2zM1 7v1h14V7H1zm3 3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 4 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 6 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 8 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5z"/>
+                                        </svg>
+                                    </div>
+
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+        </div>
+
+    </div>
+
 {% endblock %}
