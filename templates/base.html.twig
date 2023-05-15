@@ -15,44 +15,44 @@
     </head>
     <body>
         {# NabBar #}
-        <nav class="bg-stone-200 border-gray-200 dark:border-gray-600 dark:bg-grays-900">
+        <nav class="bg-stone-200 border-gray-200">
             <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl px-4 md:px-6 py-2.5">
                 <a href="{{ path('home') }}" class="flex items-center">
-                    <span class="self-center text-3xl font-extrabold whitespace-nowrap dark:text-white">Ferme Cretegny</span>
+                    <span class="self-center text-3xl font-extrabold whitespace-nowrap">Ferme Cretegny</span>
                 </a>
                 <div class="flex items-center md:order-2">
                     {% if is_granted("ROLE_USER") %}
-                        <button type="button" class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+                        <button type="button" class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
                             <span class="sr-only">Open user menu</span>
                             <img class="w-8 h-8 rounded-full" src="https://freesvg.org/img/abstract-user-flat-4.png" alt="user photo">
                         </button>
                         <!-- Dropdown menu -->
-                        <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
+                        <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow" id="user-dropdown">
                             <div class="px-4 py-3">
-                                <span class="block text-sm text-gray-900 dark:text-white">{{ app.user.useFirstName }} {{ app.user.useLastName }}</span>
-                                <span class="block text-sm font-medium text-gray-500 truncate dark:text-gray-400">{{ app.user.useEmail }}</span>
+                                <span class="block text-sm text-gray-900">{{ app.user.useFirstName }} {{ app.user.useLastName }}</span>
+                                <span class="block text-sm font-medium text-gray-500 truncate">{{ app.user.useEmail }}</span>
                             </div>
                             <ul class="py-2" aria-labelledby="user-menu-button">
                             <li>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Mon compte</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mon compte</a>
                             </li>
                             <li>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Mon panier</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mon panier</a>
                             </li>
                             <li>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Mes commandes</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mes commandes</a>
                             </li>
                             <li>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Se déconnecter</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Se déconnecter</a>
                             </li>
                             </ul>
                         </div>
                     {% else %}
-                        <a href="#" class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"><img class="w-8 h-8 rounded-full" src="https://freesvg.org/img/abstract-user-flat-4.png" alt="user photo"></a>
+                        <a href="#" class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300"><img class="w-8 h-8 rounded-full" src="https://freesvg.org/img/abstract-user-flat-4.png" alt="user photo"></a>
                     {% endif %}
                 </div>
 
-                <button data-collapse-toggle="mega-menu-full" type="button" class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mega-menu-full" aria-expanded="false">
+                <button data-collapse-toggle="mega-menu-full" type="button" class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="mega-menu-full" aria-expanded="false">
                     <span class="sr-only">Open main menu</span>
                     <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
                 </button>
@@ -62,7 +62,7 @@
                             <a href="{{ path('home') }}">Accueil</a>
                         </li>
                         <li>
-                            <a href="{{ path('app_product') }}">Produits</a>
+                            <a href="{{ path('app_products') }}">Produits</a>
                         </li>
                     </ul>
                 </div>
