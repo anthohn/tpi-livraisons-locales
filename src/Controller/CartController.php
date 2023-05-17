@@ -27,12 +27,31 @@ class CartController extends AbstractController
         //get current user infos
         $user = $this->getUser();
 
-        //get all user's liked product
+        //get all user's cart product
         $userCartProducts = $TCartRepository->findBy(['idxUser' => $user]);
 
+        //allows to display the number of items with s or not
+        $productCount = count($userCartProducts);
+
+        //calculate the total price of the cart
+        $totalPrice = 0;
+        foreach ($userCartProducts as $userCartProduct) {
+            $totalPrice += $userCartProduct->getIdxProduct()->getProPrice();
+        }
+
+        //in one prodcut display : "acrticlE" if multiple products -> "articlES"
+        if ($productCount > 1) {
+            $textProductCount = sprintf('(%d articles)', $productCount);
+        }
+        else {
+            $textProductCount = sprintf('(%d article)', $productCount);
+        }
 
         return $this->render('cart/index.html.twig', [
             'controller_name' => 'CartController',
+            'textProductCount' => $textProductCount,
+            'userCartProducts' => $userCartProducts,
+            'totalPrice' => $totalPrice
         ]);
     }
 
@@ -63,5 +82,32 @@ class CartController extends AbstractController
         //return on the last page the user was
         $lastUrl = $requestStack->getCurrentRequest()->headers->get('referer');
         return new RedirectResponse($lastUrl);
+    }
+
+    #[Route('utilisateur/panier/product/{id}/delete', name: 'app_user_delete_product')]
+    public function delete_product_cart(int $id, Request $request, EntityManagerInterface $entityManager, TCartRepository $TCartRepository, TProductRepository $TProductRepository): Response
+    {
+        //check if the user is logged in, otherwise redirect to the login
+        if(!$this->getUser()){
+            return $this->redirectToRoute('app_login');
+        }
+
+        //get current user infos
+        $user = $this->getUser();
+    
+        //get the cart product to delete
+        $cartProduct = $TCartRepository->findOneBy(['idxProduct' => $id]);
+
+        //if an other user attempt to get in this page he get redirect to the home page
+        if ($cartProduct->getIdxUser() !== $user) {
+            return $this->redirectToRoute('home');
+        }
+
+        //delete cart product
+        $entityManager->remove($cartProduct);
+        $entityManager->flush();
+
+        //redirect to page liked product
+        return $this->redirectToRoute('app_user_cart');
     }
 }

@@ -37,13 +37,13 @@
                                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mon compte</a>
                             </li> #}
                             <li>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mon panier</a>
+                                <a href="{{ path('app_user_cart') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mon panier</a>
                             </li>
-                            <li>
+                            {# <li>
                                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mes commandes</a>
-                            </li>
+                            </li> #}
                             <li>
-                                <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Se déconnecter</a>
+                                <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-sm text-gray-700 font-bold hover:bg-gray-100">Se déconnecter</a>
                             </li>
                             </ul>
                         </div>

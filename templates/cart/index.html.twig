@@ -1,20 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CartController!{% endblock %}
+{% block title %}Panier - {{ textProductCount }}{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <div class="mt-32">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/anthohn/Documents/TPI-livraisons-locales/src/Controller/CartController.php'|file_link(0) }}">src/Controller/CartController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/anthohn/Documents/TPI-livraisons-locales/templates/cart/index.html.twig'|file_link(0) }}">templates/cart/index.html.twig</a></code></li>
-    </ul>
-</div>
+
+        {% if userCartProducts is empty %}
+            <p>Votre panier est vide <a href="{{ path('app_products') }}" class="font-small text-blue-900 underline dark:text-blue-500 hover:no-underline">voir les produits</a></p>
+        {% else %}
+            <div class="grid gap-8 md:grid-cols-2">
+                <div class="col-span-2">
+                    <div class="grid gap-8 md:grid-cols-1">
+                        <h3 class="text-3xl font-bold dark:text-white"><span class="underline underline-offset-4 decoration-8 decoration-green-500">Mon panier {{ textProductCount }}</span></h3>
+                        {% for userCartProduct in userCartProducts %}
+                            <div class="block w-full rounded-lg shadow-lg dark:bg-neutral-900 border-solid border-2 border-blue-900">
+                                <div class="flex flex-row gap-8">
+                                    <div class="">
+                                        <img class="rounded-l-lg w-48" src="https://place-hold.it/400x130" alt="{{ userCartProduct.idxProduct.proDescription }}" />
+                                    </div>
+                                    <div class="mt-2">
+                                        <h5 class="text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">{{ userCartProduct.idxProduct.proName }}</h5>
+                                        {# <p class="text-base text-neutral-600 dark:text-neutral-200">{{ userCartProduct.idxProduct.idxBrand.braName }}</p> #}
+                                        <h5 class="font-medium leading-tight text-neutral-800 dark:text-neutral-50">CHF {{ userCartProduct.idxProduct.proPrice|number_format(2, '.', ',') }}</h5>
+                                        <a href="{{ path('app_user_delete_product', {'id': userCartProduct.idxProduct.id}) }}">
+                                            <div class="flex items-center gap-1">
+                                                <p class="text-slate-400">supprimer</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div> 
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div> 
+                    <h3 class="text-3xl font-bold dark:text-white">Total</h3>
+                    <br>
+                    <div class="flex justify-between">
+                        <p class="text-2xl font-normal text-gray-500 lg:text-xl dark:text-gray-400">Sous-total</p>
+                        <p class="text-2xl font-normal text-gray-500 lg:text-xl dark:text-gray-400">{{ totalPrice|number_format(2, '.', ',')  }}</p>
+                    </div>
+                    <br>
+
+                    <h3 class="text-3xl font-bold dark:text-white">Détails livraison</h3>
+                    <br>
+
+                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPvxNrI_J6sGgaCs02U_GlruqNqCgo_yE&libraries=places"></script>
+                
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+
 {% endblock %}
