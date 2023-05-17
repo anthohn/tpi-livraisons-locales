@@ -2,8 +2,8 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <title>{% block title %}{% endblock %}</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -30,7 +30,7 @@
                         <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow" id="user-dropdown">
                             <div class="px-4 py-3">
                                 <span class="block text-sm text-gray-900">{{ app.user.useFirstName }} {{ app.user.useLastName }}</span>
-                                <span class="block text-sm font-medium text-gray-500 truncate">{{ app.user.useEmail }}</span>
+                                <span class="block text-sm font-medium text-gray-500 truncate">{{ app.user.email }}</span>
                             </div>
                             <ul class="py-2" aria-labelledby="user-menu-button">
                             <li>
@@ -43,12 +43,12 @@
                                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mes commandes</a>
                             </li>
                             <li>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Se déconnecter</a>
+                                <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Se déconnecter</a>
                             </li>
                             </ul>
                         </div>
                     {% else %}
-                        <a href="#" class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300"><img class="w-8 h-8 rounded-full" src="https://freesvg.org/img/abstract-user-flat-4.png" alt="user photo"></a>
+                        <a href="{{ path('app_login') }}" class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300"><img class="w-8 h-8 rounded-full" src="https://freesvg.org/img/abstract-user-flat-4.png" alt="user photo"></a>
                     {% endif %}
                 </div>
 

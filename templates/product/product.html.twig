@@ -5,17 +5,17 @@
 {% block body %}
 
     <section class="bg-white">
-        <article class="mx-auto w-full max-w-2xl format format-sm sm:format-base lg:format-lg format-blue"> 
+        <article class="mx-auto w-full max-w-2xl format format-sm sm:format-base lg:format-lg format-blue px-4"> 
             <figure>
-                    <img src="https://place-hold.it/400x300" alt="product picture">
+                    <img src="https://place-hold.it/960x540" alt="product picture">
             </figure>
         </article>
-        <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
-            <h2 class="mb-2 text-xl font-semibold leading-none text-gray-900 md:text-2xl">{{product.proName}}</h2>
-            <p class="mb-4 text-xl font-extrabold leading-none text-gray-900 md:text-2xl">CHF {{product.proPrice|number_format(2, '.', ',')}}</p>
+        <div class="py-4 px-4 mx-auto max-w-2xl">
+            <h2 class="mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl">{{product.proName}}</h2>
+            <p class="mb-4 text-xl font-semibold leading-none text-gray-900 md:text-2xl">CHF {{product.proPrice|number_format(2, '.', ',')}}</p>
             <dl>
-                <dt class="mb-2 font-semibold leading-none text-gray-900">Details</dt>
-                <dd class="mb-4 font-light text-gray-500 sm:mb-5">{{product.proDescription}}</dd>
+                <dt class="mb-2 text-xl font-bold leading-none text-gray-900"><span class="underline decoration-4 decoration-green-500">Details du produit</span></dt>
+                <dd class="mt-4 font-light text-gray-500 sm:mb-5">{{product.proDescription}}</dd>
             </dl>
             <div class="flex items-center space-x-4">
                 <a href="#" class="text-black bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Ajouter au panier</a>

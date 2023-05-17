@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\TUserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use App\Repository\TUserRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: TUserRepository::class)]
 class TUser implements UserInterface, PasswordAuthenticatedUserInterface
@@ -19,22 +20,34 @@ class TUser implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\NotBlank(message:"Champ requis")]
     private ?string $email = null;
-
-    #[ORM\Column]
-    private array $roles = [];
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank(message:"Champ requis")]
     private ?string $password = null;
 
+    #[Assert\NotBlank(message:"Champ requis")]
+    #[Assert\EqualTo(propertyPath:"password", message:"Vous n'avez pas tapé le même mot de passe")]
+    public $password_confirm;
+
     #[ORM\Column(length: 20)]
+    #[Assert\NotBlank(message:"Champ requis")]
     private ?string $useFirstName = null;
 
     #[ORM\Column(length: 29)]
+    #[Assert\NotBlank(message:"Champ requis")]
     private ?string $useLastName = null;
+
+    #[ORM\Column(length: 15)]
+    #[Assert\NotBlank(message:"Champ requis")]
+    private ?string $useNumberPhone = null;
+    
+    #[ORM\Column]
+    private array $roles = [];
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $useCreatedDate = null;
@@ -47,9 +60,6 @@ class TUser implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'idxUser', targetEntity: TOrder::class, orphanRemoval: true)]
     private Collection $tOrders;
-
-    #[ORM\Column(length: 15)]
-    private ?string $useNumberPhone = null;
 
     public function __construct()
     {

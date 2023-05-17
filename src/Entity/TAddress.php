@@ -43,7 +43,7 @@ class TAddress
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?ttitle $idxTitle = null;
+    private ?TTitle $idxTitle = null;
 
     public function __construct()
     {
@@ -169,12 +169,12 @@ class TAddress
         return $this;
     }
 
-    public function getIdxTitle(): ?ttitle
+    public function getIdxTitle(): ?TTitle
     {
         return $this->idxTitle;
     }
 
-    public function setIdxTitle(?ttitle $idxTitle): self
+    public function setIdxTitle(?TTitle $idxTitle): self
     {
         $this->idxTitle = $idxTitle;
 
