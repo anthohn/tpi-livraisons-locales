@@ -15,6 +15,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class SecurityController extends AbstractController
 {
+    /**
+     * This method allows a user to register on the website
+     * @return Response
+     */
     #[Route('/inscription', name: 'app_registration')]
     public function registration(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $passwordHasher, TUserRepository $TUserRepository): Response
     {
@@ -48,12 +52,17 @@ class SecurityController extends AbstractController
             //redirect to login page
             return $this->redirectToRoute('app_login');
         }
+        
         return $this->render('security/registration.html.twig', [
             'controller_name' => 'SecurityController',
             'form' => $form->createView()
         ]);
     }
 
+    /**
+     * This method allows a user to login on the website
+     * @return Response
+     */
     #[Route('/connexion', name: 'app_login')]
     public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
@@ -79,6 +88,10 @@ class SecurityController extends AbstractController
         ]);
     }
 
+    /**
+     * This method allows a user to logout of the website
+     * @return Response
+     */
     #[Route('/logout', name: 'app_logout')]
     public function logout(): void
     {

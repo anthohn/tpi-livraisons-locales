@@ -16,6 +16,10 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class CartController extends AbstractController
 {
+    /**
+     * This method allows the user to access to his cart page
+     * @return Response
+     */
     #[Route('utilisateur/panier', name: 'app_user_cart')]
     public function cart(TCartRepository $TCartRepository): Response
     {
@@ -55,6 +59,10 @@ class CartController extends AbstractController
         ]);
     }
 
+    /**
+     * This method allows the user to add a product to his cart
+     * @return Response
+     */
     #[Route('utilisateur/panier/product/{id}/add', name: 'app_user_add_product')]
     public function add_like(int $id, Request $request, EntityManagerInterface $entityManager, TProductRepository $TProductRepository, RequestStack $requestStack): Response
     {
@@ -84,6 +92,10 @@ class CartController extends AbstractController
         return new RedirectResponse($lastUrl);
     }
 
+    /**
+     * This method allows the user to remove a product of his cart
+     * @return Response
+     */
     #[Route('utilisateur/panier/product/{id}/delete', name: 'app_user_delete_product')]
     public function delete_product_cart(int $id, Request $request, EntityManagerInterface $entityManager, TCartRepository $TCartRepository, TProductRepository $TProductRepository): Response
     {
