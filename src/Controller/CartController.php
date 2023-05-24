@@ -4,15 +4,22 @@ namespace App\Controller;
 
 use DateTime;
 use App\Entity\TCart;
+use App\Entity\TAddress;
+use App\Form\AddressType;
 use App\Repository\TCartRepository;
+use App\Repository\TTimeRepository;
+use App\Repository\TTitleRepository;
+use App\Repository\TAddressRepository;
 use App\Repository\TProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureArgument;
+
 
 class CartController extends AbstractController
 {
@@ -21,7 +28,7 @@ class CartController extends AbstractController
      * @return Response
      */
     #[Route('utilisateur/panier', name: 'app_user_cart')]
-    public function cart(TCartRepository $TCartRepository): Response
+    public function cart(request $request, EntityManagerInterface $manager, TCartRepository $TCartRepository, TAddressRepository $TAddressRepository, TTimeRepository $TTimeRepository, TTitleRepository $TTitleRepository, RequestStack $RequestStack): Response
     {
         //check if the user is logged in, otherwise redirect to the login
         if(!$this->getUser()){
@@ -33,6 +40,15 @@ class CartController extends AbstractController
 
         //get all user's cart product
         $userCartProducts = $TCartRepository->findBy(['idxUser' => $user]);
+         
+        //get user addresses
+        $userAddresses = $TAddressRepository->findBy(['idxUser' => $user]);
+
+        //get journey slice
+        $journeySlices = $TTimeRepository->findAll();
+
+        //get personn title
+        $titles = $TTitleRepository->findAll();
 
         //allows to display the number of items with s or not
         $productCount = count($userCartProducts);
@@ -51,11 +67,37 @@ class CartController extends AbstractController
             $textProductCount = sprintf('(%d article)', $productCount);
         }
 
+        //import google api key
+        $google_maps_api_key = '';
+
+        //creation address form
+        $address = new TAddress();
+        $formAddress = $this->createForm(AddressType::class, $address);
+
+        $formAddress->handleRequest($request);
+
+        //if submitted AND valid
+        if($formAddress->isSubmitted() && $formAddress->isValid())
+        {
+            $address->setIdxUser($user);
+
+            $manager->persist($address);
+            $manager->flush();
+
+            //return on the cart page
+            return $this->redirectToRoute('app_user_cart');
+        }
+
         return $this->render('cart/index.html.twig', [
             'controller_name' => 'CartController',
             'textProductCount' => $textProductCount,
             'userCartProducts' => $userCartProducts,
-            'totalPrice' => $totalPrice
+            'userAddresses' => $userAddresses,
+            'journeySlices' => $journeySlices,
+            'titles' => $titles,
+            'totalPrice' => $totalPrice,
+            'google_maps_api_key' => $google_maps_api_key,
+            'formAddress' => $formAddress->createView()
         ]);
     }
 
