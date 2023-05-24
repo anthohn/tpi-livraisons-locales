@@ -28,7 +28,7 @@ class CartController extends AbstractController
      * @return Response
      */
     #[Route('utilisateur/panier', name: 'app_user_cart')]
-    public function cart(request $request, EntityManagerInterface $manager, TCartRepository $TCartRepository, TAddressRepository $TAddressRepository, TTimeRepository $TTimeRepository, TTitleRepository $TTitleRepository, RequestStack $RequestStack): Response
+    public function cart(request $request, EntityManagerInterface $entityManager, TCartRepository $TCartRepository, TAddressRepository $TAddressRepository, TTimeRepository $TTimeRepository, TTitleRepository $TTitleRepository, RequestStack $RequestStack): Response
     {
         //check if the user is logged in, otherwise redirect to the login
         if(!$this->getUser()){
@@ -81,8 +81,13 @@ class CartController extends AbstractController
         {
             $address->setIdxUser($user);
 
-            $manager->persist($address);
-            $manager->flush();
+            $entityManager->persist($address);
+            $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'L\'adresse a bien été ajoutée'
+            );
 
             //return on the cart page
             return $this->redirectToRoute('app_user_cart');
@@ -99,6 +104,29 @@ class CartController extends AbstractController
             'google_maps_api_key' => $google_maps_api_key,
             'formAddress' => $formAddress->createView()
         ]);
+    }
+  
+    /**
+     * This method allows the user to delete an address
+     * @return Response
+     */
+    #[Route('utilisateur/panier/adresse/suppression', name: 'delete_address')]
+    public function delete_address(Request $request, TAddressRepository $TAddressRepository, EntityManagerInterface $entityManager): Response
+    {
+        $idAddress = $request->request->get('address-selection');
+
+        $address = $TAddressRepository->find($idAddress);
+
+        $entityManager->remove($address);
+        $entityManager->flush();
+
+        $this->addFlash(
+            'success',
+            'L\'adresse a bien été supprimée'
+        );
+
+        //redirect to cart page
+        return $this->redirectToRoute('app_user_cart');
     }
 
     /**
