@@ -45,6 +45,12 @@ class TAddress
     #[ORM\JoinColumn(nullable: false)]
     private ?TTitle $idxTitle = null;
 
+    #[ORM\Column(length: 20)]
+    private ?string $addFirstName = null;
+
+    #[ORM\Column(length: 20)]
+    private ?string $addLastName = null;
+
     public function __construct()
     {
         $this->tOrders = new ArrayCollection();
@@ -177,6 +183,30 @@ class TAddress
     public function setIdxTitle(?TTitle $idxTitle): self
     {
         $this->idxTitle = $idxTitle;
+
+        return $this;
+    }
+
+    public function getAddFirstName(): ?string
+    {
+        return $this->addFirstName;
+    }
+
+    public function setAddFirstName(string $addFirstName): self
+    {
+        $this->addFirstName = $addFirstName;
+
+        return $this;
+    }
+
+    public function getAddLastName(): ?string
+    {
+        return $this->addLastName;
+    }
+
+    public function setAddLastName(string $addLastName): self
+    {
+        $this->addLastName = $addLastName;
 
         return $this;
     }
