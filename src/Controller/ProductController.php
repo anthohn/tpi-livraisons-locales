@@ -34,14 +34,14 @@ class ProductController extends AbstractController
     }
 
     /**
-     * This method allows to display the products page
+     * This method allows to display the active products page
      * @return Response
      */
     #[Route('/produits', name: 'app_products')]
     public function products(TProductRepository $TProductRepository): Response
     {
-        // get all products in db
-        $products = $TProductRepository->findAll();
+        // get the products that are active in the database
+        $products = $TProductRepository->findBy(['proIsActive' => 1]);
         
         return $this->render('product/products.html.twig', [
             'controller_name' => 'ProductController',

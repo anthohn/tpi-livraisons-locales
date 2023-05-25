@@ -12,20 +12,16 @@
         <div class="mt-16 grid gap-8 mb-6 lg:mb-16 md:grid-cols-3">
             {# loop display all products #}
             {% for product in products %}
-
                 <div class="flex justify-center">
                     <div class="block max-w-sm rounded-lg bg-stone-200 shadow-lg border-solide border-2 border-zinc-600">
-
                         {# image of the prodct + link to détails product #}
                         <a href="{{ path('product_show', {'id': product.id}) }}">
                             <img src="https://place-hold.it/400x300" alt="product picture">
                         </a>
-
                         <div class="flex justify-between">
                             <div class="p-5">
                                 <h5 class="text-xl font-medium leading-tight text-neutral-800">{{ product.proName }}</h5>
                                 <h5 class="font-medium leading-tight text-neutral-800">CHF {{ product.proPrice|number_format(2, '.', ',') }} pièce</h5>
-                                
                             </div>
                             {# button add to cart #}
                             <div class="p-5 mt-10">

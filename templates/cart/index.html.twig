@@ -34,6 +34,17 @@
                             </div>
                         {% endfor %}
                     </div>
+                    <div class="mt-8">
+                    {# command infos #}
+                    <div class="flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                        </svg>
+                        Condition de commande :
+                        {# <br> 2 litres de lait <br> Ou deux boites de 6 oeufs <br> Ou 1 boite d'oeufs avec 1 litre de lait #}
+                    </div>
+                </div>
                 </div>
 
                 <div> 
@@ -61,7 +72,7 @@
                         <div class="grid gap-4 md:grid-cols-11">
                             <div class="col-span-9">
                                 <select name="address-selection" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option selected>Choisir l'adresse</option>
+                                    <option selected value="" >Choisir l'adresse</option>
                                     {% for userAddress in userAddresses %}
                                         <option value="{{ userAddress.id }}">{{ userAddress.addAddress }}, {{ userAddress.addPc }} {{ userAddress.addCity }}</option>
                                     {% endfor %}
@@ -177,7 +188,7 @@
 
                         </div>
                         <br>
-                        <button type="button" class="text-black bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2">
+                        <button type="button" class="text-black bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2">
                             <svg aria-hidden="true" class="w-5 h-5 mr-2 -ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path></svg>
                             Commander
                         </button>
