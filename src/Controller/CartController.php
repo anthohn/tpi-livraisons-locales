@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use DateTime;
 use App\Entity\TCart;
+use App\Entity\TOrder;
+use App\Form\OrderType;
 use App\Entity\TAddress;
 use App\Form\AddressType;
 use App\Repository\TCartRepository;
@@ -93,6 +95,19 @@ class CartController extends AbstractController
             return $this->redirectToRoute('app_user_cart');
         }
 
+        //creation order form
+        $order = new TOrder();
+        $formOrder = $this->createForm(OrderType::class, $order);
+
+        $formOrder->handleRequest($request);
+
+        //if submitted AND valid
+        if($formOrder->isSubmitted() && $formOrder->isValid())
+        {
+            echo 'test';
+            die();
+        }
+
         return $this->render('cart/index.html.twig', [
             'controller_name' => 'CartController',
             'textProductCount' => $textProductCount,
@@ -102,7 +117,9 @@ class CartController extends AbstractController
             'titles' => $titles,
             'totalPrice' => $totalPrice,
             'google_maps_api_key' => $google_maps_api_key,
-            'formAddress' => $formAddress->createView()
+            'formAddress' => $formAddress->createView(),
+            'formOrder' => $formOrder->createView()
+
         ]);
     }
   
@@ -114,6 +131,14 @@ class CartController extends AbstractController
     public function delete_address(Request $request, TAddressRepository $TAddressRepository, EntityManagerInterface $entityManager): Response
     {
         $idAddress = $request->request->get('address-selection');
+
+        // dump($idAddress);
+        // die();
+
+        // if ($idAddrses === '') {
+        //     echo 'test';
+        //     die();
+        // }
 
         $address = $TAddressRepository->find($idAddress);
 
