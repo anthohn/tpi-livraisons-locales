@@ -120,9 +120,7 @@ class CartController extends AbstractController
             $entityManager->flush();
         }
 
-        // return $this->redirectToRoute('app_show_order', ['id' => $lastId]);
-        return $this->redirectToRoute('app_home');
-
+        return $this->redirectToRoute('app_show_order', ['id' => $lastId]);
         }
 
         return $this->render('cart/index.html.twig', [

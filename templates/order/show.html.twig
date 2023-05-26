@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails commande{% endblock %}
+
+{% block body %}
+    
+    <div class="mt-32">
+
+        <div class="grid gap-8 md:grid-cols-3">
+            <div class="col-span-2">
+                <h3 class="text-3xl font-bold dark:text-white"><span class="underline underline-offset-4 decoration-8 decoration-green-500">Commande :</span></h3>
+                <div class="grid gap-8 md:grid-cols-1 overflow-auto h-96 mt-8">
+                    {% for orderPoduct in orderPoducts %}
+                        <div class="block w-full h-32 rounded-lg shadow-lg dark:bg-neutral-900 border-solid border-2 border-black">
+                            <div class="flex flex-row gap-8">
+                                <div class="">
+                                    <img class="rounded-l-lg w-48" src="" alt="" />
+                                </div>
+                                <div class="mt-2">
+                                    <h5 class="text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">{{ orderPoduct.idxProduct.proName }}</h5>
+                                    <h5 class="font-medium leading-tight text-neutral-800 dark:text-neutral-50">CHF {{ orderPoduct.idxProduct.proPrice|number_format(2, '.', ',') }}</h5>
+                                </div>
+                            </div> 
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div> 
+                <h3 class="text-3xl font-bold dark:text-white">Total</h3>
+                <br>
+                <div class="flex justify-between">
+                    <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Sous-total :</p>
+                    <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">{{ userOrder.ordPrice|number_format(2, '.', ',')  }}</p>
+                </div>
+                <br>
+                <div class="flex justify-between">
+                    <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Status :</p>
+                    <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">{{ userOrder.idxStatus.staName }}</p>
+                </div>
+                <br>
+                <div class="flex justify-between">
+                    <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Adresse de livraison : </p>
+                    <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">{{ userOrder.idxAddress.addAddress }}</p>
+                </div>
+                <div class="flex justify-between">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap&v=weekly" defer></script>
+
+    <script>
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 13,
+                center: { lat: {{ userOrder.idxAddress.addLatitude }}, lng: {{ userOrder.idxAddress.addLongitude }} },
+            });
+            new google.maps.Marker({
+                position: { lat: {{ userOrder.idxAddress.addLatitude }}, lng: {{ userOrder.idxAddress.addLongitude }} },
+                map,
+                title: "{{ userOrder.idxAddress.addAddress }} | {{ userOrder.idxAddress.addFirstName }} {{ userOrder.idxAddress.addLastName }}"
+            });
+        }
+
+        initMap();
+    </script>
+    
+    <h3 class="text-3xl font-bold dark:text-white">Carte :</h3>
+    <br>
+    <!--The div element for the map -->
+    <div id="map"></div>
+    <br><br><br><br>
+    <style>
+        #map {
+        height: 500px; /* The height is 400 pixels */
+        width: 100%; /* The width is the width of the web page */
+        }
+    </style>
+
+{% endblock %}

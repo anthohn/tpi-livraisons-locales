@@ -28,10 +28,10 @@ class TAddress
     #[ORM\Column(length: 25)]
     private ?string $addCountry = null;
 
-    #[ORM\Column(type: Types::BIGINT)]
+    #[ORM\Column(length: 20)]
     private ?string $addLatitude = null;
 
-    #[ORM\Column(type: Types::BIGINT)]
+    #[ORM\Column(length: 20)]
     private ?string $addLongitude = null;
 
     #[ORM\ManyToOne(inversedBy: 'tAddresses')]
