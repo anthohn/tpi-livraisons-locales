@@ -4,11 +4,16 @@ namespace App\Controller;
 
 use DateTime;
 use App\Entity\TCart;
+use App\Entity\THave;
+use App\Entity\TOrder;
+use App\Form\OrderType;
 use App\Entity\TAddress;
 use App\Form\AddressType;
 use App\Repository\TCartRepository;
 use App\Repository\TTimeRepository;
+use App\Repository\TOrderRepository;
 use App\Repository\TTitleRepository;
+use App\Repository\TStatusRepository;
 use App\Repository\TAddressRepository;
 use App\Repository\TProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,7 +33,7 @@ class CartController extends AbstractController
      * @return Response
      */
     #[Route('utilisateur/panier', name: 'app_user_cart')]
-    public function cart(request $request, EntityManagerInterface $entityManager, TCartRepository $TCartRepository, TAddressRepository $TAddressRepository, TTimeRepository $TTimeRepository, TTitleRepository $TTitleRepository, RequestStack $RequestStack): Response
+    public function cart(request $request, EntityManagerInterface $entityManager, TCartRepository $TCartRepository, TAddressRepository $TAddressRepository, TTimeRepository $TTimeRepository, TTitleRepository $TTitleRepository, TStatusRepository $TStatusRepository, TOrderRepository $TOrderRepository, RequestStack $RequestStack): Response
     {
         //check if the user is logged in, otherwise redirect to the login
         if(!$this->getUser()){
@@ -67,8 +72,86 @@ class CartController extends AbstractController
             $textProductCount = sprintf('(%d article)', $productCount);
         }
 
+        //creation order form
+        $order = new TOrder();
+        $formOrder = $this->createForm(OrderType::class, $order);
+
+        $formOrder->handleRequest($request);
+
+        //if submitted AND valid
+        if($formOrder->isSubmitted() && $formOrder->isValid())
+        {
+            //get all product in cart
+            $userCartProducts = $TCartRepository->findBy(['idxUser' => $user]);
+            
+            //get status
+            $status = $TStatusRepository->find(1);
+
+            $order->setOrdDate(new \DateTime());
+            $order->setOrdPrice($totalPrice);
+            $order->setIdxStatus($status);
+            $order->setIdxUser($user);
+
+            $entityManager->persist($order);
+            $entityManager->flush();
+
+            //get lastID order
+            $lastId = $order->getId();
+            $lastOrder = $TOrderRepository->find($lastId);
+            
+        //foreach link product and last order of the user
+        foreach ($userCartProducts as $userCartProduct) {
+
+            $have = new THave();
+
+            $productOrder = $userCartProduct->getIdxProduct();
+
+            $have->setIdxOrder($lastOrder);
+            $have->setidxProduct($productOrder);
+
+            $entityManager->persist($have);
+            $entityManager->flush();
+        }
+
+        //foreach delete product in the cart
+        foreach ($userCartProducts as $userCartProduct) {
+
+            $entityManager->remove($userCartProduct);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_show_order', ['id' => $lastId]);
+        }
+
+        return $this->render('cart/index.html.twig', [
+            'controller_name' => 'CartController',
+            'textProductCount' => $textProductCount,
+            'userCartProducts' => $userCartProducts,
+            'userAddresses' => $userAddresses,
+            'journeySlices' => $journeySlices,
+            'titles' => $titles,
+            'totalPrice' => $totalPrice,
+            'formOrder' => $formOrder->createView()
+        ]);
+    }
+  
+    /**
+     * This method allows the user to delete an address
+     * @return Response
+     */
+    #[Route('utilisateur/panier/adresse/ajout', name: 'add_address')]
+    public function add_address(Request $request, TAddressRepository $TAddressRepository, EntityManagerInterface $entityManager): Response
+    {
+        //check if the user is logged in, otherwise redirect to the login
+        if(!$this->getUser()){
+            return $this->redirectToRoute('app_login');
+        }
+
+        //get current user infos
+        $user = $this->getUser();
+
         //import google api key
-        $google_maps_api_key = '';
+        $google_maps_api_key = 'AIzaSyDPvxNrI_J6sGgaCs02U_GlruqNqCgo_yE';
 
         //creation address form
         $address = new TAddress();
@@ -93,19 +176,14 @@ class CartController extends AbstractController
             return $this->redirectToRoute('app_user_cart');
         }
 
-        return $this->render('cart/index.html.twig', [
+        return $this->render('cart/address.html.twig', [
             'controller_name' => 'CartController',
-            'textProductCount' => $textProductCount,
-            'userCartProducts' => $userCartProducts,
-            'userAddresses' => $userAddresses,
-            'journeySlices' => $journeySlices,
-            'titles' => $titles,
-            'totalPrice' => $totalPrice,
             'google_maps_api_key' => $google_maps_api_key,
             'formAddress' => $formAddress->createView()
         ]);
+
     }
-  
+
     /**
      * This method allows the user to delete an address
      * @return Response
@@ -113,7 +191,18 @@ class CartController extends AbstractController
     #[Route('utilisateur/panier/adresse/suppression', name: 'delete_address')]
     public function delete_address(Request $request, TAddressRepository $TAddressRepository, EntityManagerInterface $entityManager): Response
     {
+        dump('echo');
+        die();
+
         $idAddress = $request->request->get('address-selection');
+
+        // dump($idAddress);
+        // die();
+
+        // if ($idAddrses === '') {
+        //     echo 'test';
+        //     die();
+        // }
 
         $address = $TAddressRepository->find($idAddress);
 

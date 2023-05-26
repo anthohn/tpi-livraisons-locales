@@ -28,15 +28,15 @@ class TAddress
     #[ORM\Column(length: 25)]
     private ?string $addCountry = null;
 
-    #[ORM\Column(type: Types::BIGINT)]
+    #[ORM\Column(length: 20)]
     private ?string $addLatitude = null;
 
-    #[ORM\Column(type: Types::BIGINT)]
+    #[ORM\Column(length: 20)]
     private ?string $addLongitude = null;
 
     #[ORM\ManyToOne(inversedBy: 'tAddresses')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?tuser $idxUser = null;
+    private ?TUser $idxUser = null;
 
     #[ORM\OneToMany(mappedBy: 'idxAddress', targetEntity: TOrder::class)]
     private Collection $tOrders;
@@ -133,12 +133,12 @@ class TAddress
         return $this;
     }
 
-    public function getIdxUser(): ?tuser
+    public function getIdxUser(): ?TUser
     {
         return $this->idxUser;
     }
 
-    public function setIdxUser(?tuser $idxUser): self
+    public function setIdxUser(?TUser $idxUser): self
     {
         $this->idxUser = $idxUser;
 

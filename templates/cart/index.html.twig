@@ -35,34 +35,32 @@
                         {% endfor %}
                     </div>
                     <div class="mt-8">
-                    {# command infos #}
-                    <div class="flex items-center gap-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
-                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                        </svg>
-                        Condition de commande :
-                        {# <br> 2 litres de lait <br> Ou deux boites de 6 oeufs <br> Ou 1 boite d'oeufs avec 1 litre de lait #}
+                        {# command infos #}
+                        <div class="flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                            </svg>
+                            Condition de commande :
+                            {# <br> 2 litres de lait <br> Ou deux boites de 6 oeufs <br> Ou 1 boite d'oeufs avec 1 litre de lait #}
+                        </div>
                     </div>
                 </div>
-                </div>
 
-                <div> 
-                    {# display the total cost of the cart #}
-                    <h3 class="text-3xl font-bold dark:text-white">Total</h3>
-                    <br>
-                    <div class="flex justify-between">
-                        <p class="text-2xl font-normal text-gray-500 lg:text-xl dark:text-gray-400">Sous-total</p>
-                        <p class="text-2xl font-normal text-gray-500 lg:text-xl dark:text-gray-400">{{ totalPrice|number_format(2, '.', ',')  }}</p>
-                    </div>
-                    <br>
-
-                    <h3 class="text-3xl font-bold dark:text-white">Détails livraison</h3>
-                    <br>
-
-                    {# chose the address of the command #}
-                    <form action="{{ path('delete_address') }}" method="post">
-
+                <div>
+                    {{ form_start(formOrder) }}
+                        {# display the total cost of the cart #}
+                        <h3 class="text-3xl font-bold dark:text-white">Total</h3>
+                        <br>
+                        <div class="flex justify-between">
+                            <p class="text-2xl font-normal text-gray-500 lg:text-xl dark:text-gray-400">Sous-total</p>
+                            <p class="text-2xl font-normal text-gray-500 lg:text-xl dark:text-gray-400">{{ totalPrice|number_format(2, '.', ',')  }}</p>
+                        </div>
+                        <br>
+                        <h3 class="text-3xl font-bold dark:text-white">Détails livraison</h3>
+                        <br>
+                        
+                        {# chose the address of the command #}
                         {% for message in app.flashes('success') %}
                             <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
                                 {{ message }}
@@ -71,134 +69,45 @@
 
                         <div class="grid gap-4 md:grid-cols-11">
                             <div class="col-span-9">
-                                <select name="address-selection" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option selected value="" >Choisir l'adresse</option>
-                                    {% for userAddress in userAddresses %}
-                                        <option value="{{ userAddress.id }}">{{ userAddress.addAddress }}, {{ userAddress.addPc }} {{ userAddress.addCity }}</option>
-                                    {% endfor %}
-                                </select>
+                                {{ form_row(formOrder.idxAddress, {'label': false, 'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'}}) }}
                             </div>
 
                             {# add an address #}
-                            <button type="button" id="buttonDisplayForm" class="w-10 h-10 border border-black rounded-full text-sm p-2.5 text-center inline-flex items-center">
+                            <a href="{{ path('add_address') }}" class="w-10 h-10 border border-black rounded-full text-sm p-2.5 text-center inline-flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
                                 </svg>
-                            </button>
+                            </a>
 
                             {# delete an address #}
-                            <button type="button" data-modal-target="popup-modal" data-modal-toggle="popup-modal" class="w-10 h-10 border border-black rounded-full text-sm p-2.5 text-center inline-flex items-center">
+                            <button type="button" class="w-10 h-10 border border-black rounded-full text-sm p-2.5 text-center inline-flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
-                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
                                 </svg>
+                            </button>                           
+                        </div>
+                        <br><br>                              
+
+                        {# chose the day of the delivery #}
+                        <div>
+                            <h3 class="text-2xl font-semibold dark:text-white">Date de livraison souhaité :</h3>
+                            <br>
+                            <div class="grid gap-8 md:grid-cols-2">
+
+                                {{ form_row(formOrder.ordDate, {'label': false, 'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 datepicker-input'}}) }}
+                                {{ form_row(formOrder.idxTime, {'label': false, 'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'}}) }}
+
+                            </div>
+                            <br>
+                            <button type="submit" class="text-black bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2">
+                                <svg aria-hidden="true" class="w-5 h-5 mr-2 -ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path></svg>
+                                Commander
                             </button>
-
-                            {# modal pop-up to delete address #}
-                            <div id="popup-modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                                <div class="relative w-full max-w-md max-h-full">
-                                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                        <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="popup-modal">
-                                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                                            <span class="sr-only">Close modal</span>
-                                        </button>
-                                        <div class="p-6 text-center">
-                                            <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                            <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Êtes-vous sur de vouloir supprimer cette adresse ?</h3>
-
-                                            <button type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">Oui, supprimer</button>
-                                            <button data-modal-hide="popup-modal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Non</button>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
-
-                    </form>
-                    <br>                
-
-
-                    {# Form to a new address #}
-                    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key  }}&libraries=places"></script>
-                    {{ form_start(formAddress, {'attr': {'id': 'addAddressForm'}}) }}
-                        <div class="grid gap-6 mb-6 md:grid-cols-2 w-4/5">  
-                            {{ form_row(formAddress.addFirstName, {'label': false, 'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5', 'placeholder': 'Prénom'}}) }}
-                            {{ form_row(formAddress.addLastName, {'label': false, 'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5', 'placeholder': 'Nom'}}) }}
-                        </div>
-                        <div class="grid gap-6 mb-6 md:grid-cols-2 w-4/5">  
-                            {{ form_row(formAddress.idxTitle, {'label': false, 'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'}}) }}
-                            {{ form_row(formAddress.addAddress, {'label': false, 'attr': {'class': 'address-autocomplete bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5', 'placeholder': 'Adresse'}}) }}
-                        </div>
-                        <div class="grid gap-6 mb-6 md:grid-cols-2 w-4/5">  
-                            {{ form_row(formAddress.addCity, {'label': false, 'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5', 'placeholder': 'Ville'}}) }}
-                            {{ form_row(formAddress.addPc, {'label': false, 'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5', 'placeholder': 'Code Postal'}}) }}
-                        </div>
-                        <button type="submit" class="text-black bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2">Sauvegarder</button>
-                        <button type="button" id="buttonHideForm" class="font-normal text-black text-sm">Annuler</button>
-                    {{ form_end(formAddress) }}
-
-
-                    {# script to display or hide the add form and de delivery date form #}
-                    <script>
-                        document.getElementById('buttonDisplayForm').addEventListener('click', function() {
-                            document.getElementById('addAddressForm').style.display = 'block';
-                            document.getElementById('deliveryDateForm').style.display = 'none';
-                        });
-
-                        document.getElementById('buttonHideForm').addEventListener('click', function() {
-                            document.getElementById('addAddressForm').style.display = 'none';
-                            document.getElementById('deliveryDateForm').style.display = 'block';
-                        });
-                    </script>
-
-                    <style>
-                    #addAddressForm {
-                        display: none;
-                    }
-
-                    #deliveryDateForm {
-                    display: block;
-                    }
-                    </style>
-                    <br><br>
-
-                    {# chose the day of the delivery #}
-                    <div id="deliveryDateForm">
-                        <h3 class="text-2xl font-semibold dark:text-white">Date de livraison souhaité :</h3>
-                        <br>
-                        <div class="grid gap-8 md:grid-cols-2">
-                            <div class="relative max-w-sm">
-                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-                                </div>
-                                <input datepicker datepicker-orientation="bottom right" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Date de livraison">
-                            </div>
-                            <div>
-
-                                {% for journeySlice in journeySlices %}
-
-                                    <input type="radio" id="html" name="fav_language" value="">
-                                    <label for="html">{{ journeySlice.timSlice }}</label><br>
-                                    
-                                {% endfor %}
-
-                            </div>
-
-                        </div>
-                        <br>
-                        <button type="button" class="text-black bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2">
-                            <svg aria-hidden="true" class="w-5 h-5 mr-2 -ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path></svg>
-                            Commander
-                        </button>
-                    </div>
-                
+                    {{ form_end(formOrder) }}
                 </div>
-
             </div>
         {% endif %}
-
     </div>
-
 {% endblock %}
