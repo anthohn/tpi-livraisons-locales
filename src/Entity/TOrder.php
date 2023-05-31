@@ -26,11 +26,11 @@ class TOrder
 
     #[ORM\ManyToOne(inversedBy: 'tOrders')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?taddress $idxAddress = null;
+    private ?TAddress $idxAddress = null;
 
     #[ORM\ManyToOne(inversedBy: 'tOrders')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?tuser $idxUser = null;
+    private ?TUser $idxUser = null;
 
     #[ORM\ManyToOne(inversedBy: 'torders')]
     #[ORM\JoinColumn(nullable: false)]
@@ -77,24 +77,24 @@ class TOrder
         return $this;
     }
 
-    public function getIdxAddress(): ?taddress
+    public function getIdxAddress(): ?TAddress
     {
         return $this->idxAddress;
     }
 
-    public function setIdxAddress(?taddress $idxAddress): self
+    public function setIdxAddress(?TAddress $idxAddress): self
     {
         $this->idxAddress = $idxAddress;
 
         return $this;
     }
 
-    public function getIdxUser(): ?tuser
+    public function getIdxUser(): ?TUser
     {
         return $this->idxUser;
     }
 
-    public function setIdxUser(?tuser $idxUser): self
+    public function setIdxUser(?TUser $idxUser): self
     {
         $this->idxUser = $idxUser;
 

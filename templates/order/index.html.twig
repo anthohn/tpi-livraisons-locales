@@ -16,7 +16,7 @@
                         <div class="p-7 m-0">
                             <h5 class="text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">CHF {{ userOrder.ordPrice|number_format(2, '.', ',') }}</h5>
                             <p class="text-base text-neutral-600 dark:text-neutral-200">{{ userOrder.idxStatus.staName }}</p>
-                            <h5 class="font-medium leading-tight text-neutral-800 dark:text-neutral-50">{{ userOrder.ordDate|date('d.m.y') }}</h5>
+                            <h5 class="font-medium leading-tight text-neutral-800 dark:text-neutral-50">{{ userOrder.ordDate|date('d.m.y') }} {{ userOrder.idxTime.timSlice}}</h5>
                             <div class="mt-5">
                                 <a href="{{ path('app_show_order', {'id': userOrder.id}) }}" class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">Voir la commande</a>
                             </div>

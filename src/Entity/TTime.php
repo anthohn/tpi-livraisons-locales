@@ -18,7 +18,7 @@ class TTime
     #[ORM\Column(length: 20)]
     private ?string $timSlice = null;
 
-    #[ORM\OneToMany(mappedBy: 'idxTime', targetEntity: Torder::class)]
+    #[ORM\OneToMany(mappedBy: 'idxTime', targetEntity: TOrder::class)]
     private Collection $torders;
 
     public function __construct()
@@ -51,7 +51,7 @@ class TTime
         return $this->torders;
     }
 
-    public function addTorder(Torder $torder): self
+    public function addTorder(TOrder $torder): self
     {
         if (!$this->torders->contains($torder)) {
             $this->torders->add($torder);
@@ -61,7 +61,7 @@ class TTime
         return $this;
     }
 
-    public function removeTorder(Torder $torder): self
+    public function removeTorder(TOrder $torder): self
     {
         if ($this->torders->removeElement($torder)) {
             // set the owning side to null (unless already changed)
