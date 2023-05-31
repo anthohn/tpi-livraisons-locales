@@ -1,0 +1,128 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cretegny - livraison{% endblock %}
+
+{% block body %}
+
+<div class="mt-32">
+
+    {# title of the page #}
+    <h3 class="text-3xl font-bold mb-10"><span class="underline underline-offset-4 decoration-8 decoration-green-500">Commandes :</span></h3>
+
+    {# init grid #}
+    <div class="grid grid-flow-col gap-4">
+
+        {# form for search date and slice of the day #}
+        <form action="{{ path('app_delivery') }}" method="post" class="row-span-2 col-span-2 grid gap-8 md:grid-cols-2 h-1/2">
+
+            <div>
+                <input name="date" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            </div>
+
+            <div>
+                {% for slice in slices %}
+                    <div class="form-check form-check-inline">
+                        <input name="checkSlice" class="form-check-input" type="radio" value="{{ slice.id }}" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            {{ slice.timSlice }}
+                        </label>
+                    </div>
+                {% endfor %}
+                
+                <button type="submit" class="text-black bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Rechercher</button>
+            </div>
+        </form>
+
+        {# map of the delivery with points #}
+        <div class="col-span-2">
+
+            {# title #}
+            <h3 class="text-3xl font-semibold mb-10">Carte de livraison :</h3>
+
+            {# show map #}
+            <div id="map" class="h-96"></div>
+
+            <script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap&v=weekly" defer></script>
+            <script>
+                function initMap() {
+                    const map = new google.maps.Map(document.getElementById("map"), {
+                        zoom: 10,
+                        center: { lat: 46.47907404533633, lng: 6.4808874677385235 },
+                    });
+
+                    //Create the directionsService and directionsRenderer variables
+                    const directionsService = new google.maps.DirectionsService();
+                    const directionsRenderer = new google.maps.DirectionsRenderer();
+
+                    //Link the renderer to the map
+                    directionsRenderer.setMap(map);
+
+                    //Create the list of waypoints
+                    let waypoints = [];
+                    {% for order in orders %}
+                        waypoints.push({ location: { lat: {{ order.idxAddress.addLatitude }}, lng: {{ order.idxAddress.addLongitude }} }, stopover: true });
+                    {% endfor %}
+
+                    //Create route request
+                    const request = {
+                        origin: { lat: 46.52810358839723, lng: 6.440363638099737 },
+                        destination: { lat: 46.527886043869465, lng: 6.44041990702798 },
+                        waypoints: waypoints,
+                        optimizeWaypoints: true,
+                        travelMode: 'DRIVING'
+                    };
+
+                    //Calculate the route and display it on the map
+                    directionsService.route(request, function(result, status) {
+                        if (status == 'OK') {
+                            directionsRenderer.setDirections(result);
+
+                            // Ajuster la carte pour qu'elle s'adapte à l'itinéraire
+                            const bounds = new google.maps.LatLngBounds();
+                            result.routes[0].legs.forEach(function(leg) {
+                                bounds.extend(leg.start_location);
+                                bounds.extend(leg.end_location);
+                            });
+                            map.fitBounds(bounds);
+                        }
+                    });
+                    
+                    //Add markers for each delivery point
+                    {% for order in orders %}
+                        new google.maps.Marker({
+                            position: { lat: {{ order.idxAddress.addLatitude }}, lng: {{ order.idxAddress.addLongitude }} },
+                            map,
+                            title: "{{ order.idxAddress.addAddress }}",
+                        });
+                    {% endfor %}
+                }
+                initMap();
+            </script>
+        </div>
+
+        {# listing orders of selected day #}
+        <div class="row-span-3">
+            <div class="grid gap-8 md:grid-cols-1 overflow-auto h-96">
+                {% for order in orders %}
+                    <div class="block w-full h-48 rounded-lg shadow-lgborder-solid border-2 border-black">
+                        <div class="flex flex-row gap-8">
+                            <div class="p-4 m-0">
+                            <h5 class="text-xl font-medium leading-tight text-neutral-800">CHF {{ order.ordPrice|number_format(2, '.', ',') }}</h5>
+                            <p class="text-base text-neutral-600">{{ order.idxStatus.staName }}</p>
+                            <h5 class="font-medium leading-tight text-neutral-800">{{ order.ordDate|date('d.m.y') }} {{ order.idxTime.timSlice }}</h5>
+                            <p class="text-base text-neutral-600">{{ order.idxAddress.addAddress }}</p>
+                            <div class="mt-5">
+                                <a href="{{ path('app_show_order', {'id': order.id}) }}" class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">Voir la commande</a>
+                            </div>
+                        </div>
+                        </div> 
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

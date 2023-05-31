@@ -7,23 +7,22 @@
     <div class="mt-32">
 
         {% if userCartProducts is empty %}
-            <p>Votre panier est vide <a href="{{ path('app_products') }}" class="font-small text-blue-900 underline dark:text-blue-500 hover:no-underline">voir les produits</a></p>
+            <p>Votre panier est vide <a href="{{ path('app_products') }}" class="font-small text-blue-900 underline hover:no-underline">voir les produits</a></p>
         {% else %}
             <div class="grid gap-8 md:grid-cols-2">
                 {# display cart product in the cart of the user #}
                 <div>
-                    <h3 class="text-3xl font-bold dark:text-white"><span class="underline underline-offset-4 decoration-8 decoration-green-500">Mon panier {{ textProductCount }}</span></h3>
+                    <h3 class="text-3xl font-bold"><span class="underline underline-offset-4 decoration-8 decoration-green-500">Mon panier {{ textProductCount }}</span></h3>
                     <div class="grid gap-8 md:grid-cols-1 overflow-auto h-96 mt-8">
                         {% for userCartProduct in userCartProducts %}
-                            <div class="block w-full h-32 rounded-lg shadow-lg dark:bg-neutral-900 border-solid border-2 border-black">
+                            <div class="block w-full h-32 rounded-lg shadow-lgborder-solid border-2 border-black">
                                 <div class="flex flex-row gap-8">
                                     <div class="">
                                         <img class="rounded-l-lg w-48" src="https://place-hold.it/200x130" alt="{{ userCartProduct.idxProduct.proDescription }}" />
                                     </div>
                                     <div class="mt-2">
-                                        <h5 class="text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">{{ userCartProduct.idxProduct.proName }}</h5>
-                                        {# <p class="text-base text-neutral-600 dark:text-neutral-200">{{ userCartProduct.idxProduct.idxBrand.braName }}</p> #}
-                                        <h5 class="font-medium leading-tight text-neutral-800 dark:text-neutral-50">CHF {{ userCartProduct.idxProduct.proPrice|number_format(2, '.', ',') }}</h5>
+                                        <h5 class="text-xl font-medium leading-tight text-neutral-800">{{ userCartProduct.idxProduct.proName }}</h5>
+                                        <h5 class="font-medium leading-tight text-neutral-800">CHF {{ userCartProduct.idxProduct.proPrice|number_format(2, '.', ',') }}</h5>
                                         <a href="{{ path('app_user_delete_product', {'id': userCartProduct.idxProduct.id}) }}">
                                             <div class="flex items-center gap-1">
                                                 <p class="text-slate-400">supprimer</p>
@@ -50,26 +49,26 @@
                 <div>
                     {{ form_start(formOrder) }}
                         {# display the total cost of the cart #}
-                        <h3 class="text-3xl font-bold dark:text-white">Total</h3>
+                        <h3 class="text-3xl font-bold">Total</h3>
                         <br>
                         <div class="flex justify-between">
-                            <p class="text-2xl font-normal text-gray-500 lg:text-xl dark:text-gray-400">Sous-total</p>
-                            <p class="text-2xl font-normal text-gray-500 lg:text-xl dark:text-gray-400">{{ totalPrice|number_format(2, '.', ',')  }}</p>
+                            <p class="text-2xl font-normal text-gray-500 lg:text-xl">Sous-total</p>
+                            <p class="text-2xl font-normal text-gray-500 lg:text-xl">{{ totalPrice|number_format(2, '.', ',')  }}</p>
                         </div>
                         <br>
-                        <h3 class="text-3xl font-bold dark:text-white">Détails livraison</h3>
+                        <h3 class="text-3xl font-bold">Détails livraison</h3>
                         <br>
                         
                         {# chose the address of the command #}
                         {% for message in app.flashes('success') %}
-                            <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+                            <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50" role="alert">
                                 {{ message }}
                             </div>
                         {% endfor %}
 
                         <div class="grid gap-4 md:grid-cols-11">
                             <div class="col-span-9">
-                                {{ form_row(formOrder.idxAddress, {'label': false, 'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'}}) }}
+                                {{ form_row(formOrder.idxAddress, {'label': false, 'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'}}) }}
                             </div>
 
                             {# add an address #}
@@ -91,12 +90,12 @@
 
                         {# chose the day of the delivery #}
                         <div>
-                            <h3 class="text-2xl font-semibold dark:text-white">Date de livraison souhaité :</h3>
+                            <h3 class="text-2xl font-semibold">Date de livraison souhaité :</h3>
                             <br>
                             <div class="grid gap-8 md:grid-cols-2">
 
-                                {{ form_row(formOrder.ordDate, {'label': false, 'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 datepicker-input'}}) }}
-                                {{ form_row(formOrder.idxTime, {'label': false, 'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'}}) }}
+                                {{ form_row(formOrder.ordDate, {'label': false, 'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 datepicker-input'}}) }}
+                                {{ form_row(formOrder.idxTime, {'label': false, 'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'}}) }}
 
                             </div>
                             <br>
