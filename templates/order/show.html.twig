@@ -30,7 +30,7 @@
                 <br>
                 <div class="flex justify-between">
                     <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Sous-total :</p>
-                    <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">{{ userOrder.ordPrice|number_format(2, '.', ',')  }}</p>
+                    <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">CHF {{ userOrder.ordPrice|number_format(2, '.', ',')  }}</p>
                 </div>
                 <br>
                 <div class="flex justify-between">
@@ -42,7 +42,14 @@
                     <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Adresse de livraison : </p>
                     <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">{{ userOrder.idxAddress.addAddress }}</p>
                 </div>
+                <br>
                 <div class="flex justify-between">
+                    <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Date de livraison : </p>
+                    <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">{{ userOrder.ordDate|date('d.m.y') }}</p>
+                </div>
+                <div class="flex justify-between">
+                    <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Tranche de la journée : </p>
+                    <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">{{ userOrder.idxTime.timSlice }}</p>
                 </div>
             </div>
         </div>
