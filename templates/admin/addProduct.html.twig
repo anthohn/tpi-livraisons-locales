@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cretegny - Ajout produit{% endblock %}
+
+{% block body %}
+
+    <div class="mx-32 mt-24">
+        <h2 class="text-4xl font-bold"><span class="underline underline-offset-4 decoration-8 decoration-green-500">Ajout d'un produit :</span></h2><br>
+        {{ form_start(form) }} 
+            <div class="grid gap-6 mb-6 md:grid-cols-3">
+                {{ form_row(form.proName, {'label': 'Nom du produit : ', 'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900'} ,'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'}}) }}
+                {{ form_row(form.proPrice, {'label': 'Prix du produit : ', 'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900'},'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'} }) }}
+                {{ form_row(form.proQuantity, {'label': 'Quantité dans le stock : ', 'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900'} ,'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'}}) }}
+            </div>
+            <div class="grid gap-6 mb-6 md:grid-cols-2">
+                {{ form_row(form.proDescription, {'label': 'Déscription du produit : ', 'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900'},'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'}}) }}              
+                {{ form_row(form.proIsActive, {'label': 'Article actif : ', 'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900'},'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'}}) }}
+            </div>
+            <button type="submit" class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Ajouter</button>
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

@@ -18,7 +18,7 @@
                             <div class="block w-full h-32 rounded-lg shadow-lgborder-solid border-2 border-black">
                                 <div class="flex flex-row gap-8">
                                     <div class="">
-                                        <img class="rounded-l-lg w-48" src="https://place-hold.it/200x130" alt="{{ userCartProduct.idxProduct.proDescription }}" />
+                                        <img class="h-28  rounded-lg m-2" src="{{ vich_uploader_asset(userCartProduct.idxProduct, 'imageFile') }}" alt="">
                                     </div>
                                     <div class="mt-2">
                                         <h5 class="text-xl font-medium leading-tight text-neutral-800">{{ userCartProduct.idxProduct.proName }}</h5>

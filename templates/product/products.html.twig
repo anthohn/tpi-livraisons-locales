@@ -16,7 +16,7 @@
                     <div class="block max-w-sm rounded-lg bg-stone-200 shadow-lg border-solide border-2 border-zinc-600">
                         {# image of the prodct + link to détails product #}
                         <a href="{{ path('product_show', {'id': product.id}) }}">
-                            <img src="https://place-hold.it/400x300" alt="product picture">
+                            <img src="{{ vich_uploader_asset(product, 'imageFile') }}" alt="">
                         </a>
                         <div class="flex justify-between">
                             <div class="p-5">
