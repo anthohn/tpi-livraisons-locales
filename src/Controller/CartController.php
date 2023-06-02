@@ -35,18 +35,34 @@ class CartController extends AbstractController
      */
     #[Route('utilisateur/panier', name: 'app_user_cart')]
     #[IsGranted('ROLE_USER')]
-    public function cart(request $request, EntityManagerInterface $entityManager, TCartRepository $TCartRepository, TAddressRepository $TAddressRepository, TTimeRepository $TTimeRepository, TTitleRepository $TTitleRepository, TStatusRepository $TStatusRepository, TOrderRepository $TOrderRepository, RequestStack $RequestStack): Response
+    public function cart(request $request, EntityManagerInterface $entityManager, TCartRepository $TCartRepository, TProductRepository $TProductRepository, TAddressRepository $TAddressRepository, TTimeRepository $TTimeRepository, TTitleRepository $TTitleRepository, TStatusRepository $TStatusRepository, TOrderRepository $TOrderRepository, RequestStack $RequestStack): Response
     {
-        //check if the user is logged in, otherwise redirect to the login
-        if(!$this->getUser()){
-            return $this->redirectToRoute('app_login');
-        }
-
         //get current user infos
         $user = $this->getUser();
 
         //get all user's cart product
         $userCartProducts = $TCartRepository->findBy(['idxUser' => $user]);
+    
+        //initate count quantity
+        $productQuantities = [];
+
+        foreach ($userCartProducts as $userCartProduct) 
+        {
+            $productId = $userCartProduct->getIdxProduct()->getId();
+      
+            // If the product already exists in the $productQuantities array, increment the quantity
+            if (array_key_exists($productId, $productQuantities))
+             {
+                $productQuantities[$productId]['quantity'] += 1;
+            } 
+            // If the product does not exist in the $productQuantities array add it with an initial quantity of 1
+            else {
+                $productQuantities[$productId] = [
+                    'product' => $userCartProduct->getIdxProduct(),
+                    'quantity' => 1 // Add the item with an initial quantity of 1
+                ];
+            }
+        }
          
         //get user addresses
         $userAddresses = $TAddressRepository->findBy(['idxUser' => $user]);
@@ -128,7 +144,7 @@ class CartController extends AbstractController
         return $this->render('cart/index.html.twig', [
             'controller_name' => 'CartController',
             'textProductCount' => $textProductCount,
-            'userCartProducts' => $userCartProducts,
+            'productQuantities' => $productQuantities,
             'userAddresses' => $userAddresses,
             'journeySlices' => $journeySlices,
             'titles' => $titles,
@@ -145,11 +161,6 @@ class CartController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function add_address(Request $request, TAddressRepository $TAddressRepository, EntityManagerInterface $entityManager): Response
     {
-        //check if the user is logged in, otherwise redirect to the login
-        if(!$this->getUser()){
-            return $this->redirectToRoute('app_login');
-        }
-
         //get current user infos
         $user = $this->getUser();
 
@@ -219,11 +230,6 @@ class CartController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function add_like(int $id, Request $request, EntityManagerInterface $entityManager, TProductRepository $TProductRepository, RequestStack $requestStack): Response
     {
-        //check if the user is logged in, otherwise redirect to the login
-        if(!$this->getUser()){
-            return $this->redirectToRoute('app_login');
-        }
-
         //get current user infos
         $user = $this->getUser();
     
@@ -253,11 +259,6 @@ class CartController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function delete_product_cart(int $id, Request $request, EntityManagerInterface $entityManager, TCartRepository $TCartRepository, TProductRepository $TProductRepository): Response
     {
-        //check if the user is logged in, otherwise redirect to the login
-        if(!$this->getUser()){
-            return $this->redirectToRoute('app_login');
-        }
-
         //get current user infos
         $user = $this->getUser();
     

@@ -5,8 +5,7 @@
 {% block body %}
 
     <div class="mt-32">
-
-        {% if userCartProducts is empty %}
+        {% if productQuantities is empty %}
             <p>Votre panier est vide <a href="{{ path('app_products') }}" class="font-small text-blue-900 underline hover:no-underline">voir les produits</a></p>
         {% else %}
             <div class="grid gap-8 md:grid-cols-2">
@@ -14,20 +13,29 @@
                 <div>
                     <h3 class="text-3xl font-bold"><span class="underline underline-offset-4 decoration-8 decoration-green-500">Mon panier {{ textProductCount }}</span></h3>
                     <div class="grid gap-8 md:grid-cols-1 overflow-auto h-96 mt-8">
-                        {% for userCartProduct in userCartProducts %}
+                        {% for productQuantitie in productQuantities %}
                             <div class="block w-full h-32 rounded-lg shadow-lgborder-solid border-2 border-black">
                                 <div class="flex flex-row gap-8">
                                     <div class="">
-                                        <img class="h-28  rounded-lg m-2" src="{{ vich_uploader_asset(userCartProduct.idxProduct, 'imageFile') }}" alt="">
+                                        <img class="h-28  rounded-lg m-2" src="{{ vich_uploader_asset(productQuantitie.product, 'imageFile') }}" alt="">
                                     </div>
                                     <div class="mt-2">
-                                        <h5 class="text-xl font-medium leading-tight text-neutral-800">{{ userCartProduct.idxProduct.proName }}</h5>
-                                        <h5 class="font-medium leading-tight text-neutral-800">CHF {{ userCartProduct.idxProduct.proPrice|number_format(2, '.', ',') }}</h5>
-                                        <a href="{{ path('app_user_delete_product', {'id': userCartProduct.idxProduct.id}) }}">
-                                            <div class="flex items-center gap-1">
-                                                <p class="text-slate-400">supprimer</p>
-                                            </div>
-                                        </a>
+                                        <h5 class="text-xl font-medium leading-tight text-neutral-800">{{ productQuantitie.product.proName }}</h5>
+                                        <h5 class="font-medium leading-tight text-neutral-800">CHF {{ productQuantitie.product.proPrice|number_format(2, '.', ',') }}</h5>
+                                        <div class="flex justify-start  gap-4">
+                                            <h5 class="font-medium leading-tight text-neutral-800">Quantité : </h5>
+                                            <a href="{{ path('app_user_delete_product', {'id': productQuantitie.product.id}) }}">
+                                                <div class="flex items-center gap-1">
+                                                    <h3 class="text-xl font-bold">-</h3>
+                                                </div>
+                                            </a>
+                                            <h5>{{ productQuantitie.quantity }}</h5>
+                                            <a href="{{ path('app_user_add_product', {'id': productQuantitie.product.id}) }}">
+                                                <div class="flex items-center gap-1">
+                                                    <h3 class="text-xl font-bold">+</h3>
+                                                </div>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div> 
                             </div>
@@ -45,7 +53,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div>
                     {{ form_start(formOrder) }}
                         {# display the total cost of the cart #}
@@ -58,26 +65,22 @@
                         <br>
                         <h3 class="text-3xl font-bold">Détails livraison</h3>
                         <br>
-                        
                         {# chose the address of the command #}
                         {% for message in app.flashes('success') %}
                             <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50" role="alert">
                                 {{ message }}
                             </div>
                         {% endfor %}
-
                         <div class="grid gap-4 md:grid-cols-11">
                             <div class="col-span-9">
                                 {{ form_row(formOrder.idxAddress, {'label': false, 'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'}}) }}
                             </div>
-
                             {# add an address #}
                             <a href="{{ path('add_address') }}" class="w-10 h-10 border border-black rounded-full text-sm p-2.5 text-center inline-flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
                                 </svg>
                             </a>
-
                             {# delete an address #}
                             <button type="button" class="w-10 h-10 border border-black rounded-full text-sm p-2.5 text-center inline-flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
@@ -87,7 +90,6 @@
                             </button>                           
                         </div>
                         <br><br>                              
-
                         {# chose the day of the delivery #}
                         <div>
                             <h3 class="text-2xl font-semibold">Date de livraison souhaité :</h3>
