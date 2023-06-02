@@ -68,7 +68,7 @@ class SecurityController extends AbstractController
     {
         //If the user is already logged in and tries to open the page -> he is redirected to the home page
         if ($this->getUser()) {
-            return $this->redirectToRoute('app_product');
+            return $this->redirectToRoute('app_home');
         }
         
         // get the login error if there is one
