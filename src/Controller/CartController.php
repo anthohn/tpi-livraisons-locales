@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureArgument;
 
@@ -33,6 +34,7 @@ class CartController extends AbstractController
      * @return Response
      */
     #[Route('utilisateur/panier', name: 'app_user_cart')]
+    #[IsGranted('ROLE_USER')]
     public function cart(request $request, EntityManagerInterface $entityManager, TCartRepository $TCartRepository, TAddressRepository $TAddressRepository, TTimeRepository $TTimeRepository, TTitleRepository $TTitleRepository, TStatusRepository $TStatusRepository, TOrderRepository $TOrderRepository, RequestStack $RequestStack): Response
     {
         //check if the user is logged in, otherwise redirect to the login
@@ -138,8 +140,9 @@ class CartController extends AbstractController
     /**
      * This method allows the user to delete an address
      * @return Response
-     */
+     */    
     #[Route('utilisateur/panier/adresse/ajout', name: 'add_address')]
+    #[IsGranted('ROLE_USER')]
     public function add_address(Request $request, TAddressRepository $TAddressRepository, EntityManagerInterface $entityManager): Response
     {
         //check if the user is logged in, otherwise redirect to the login
@@ -189,20 +192,10 @@ class CartController extends AbstractController
      * @return Response
      */
     #[Route('utilisateur/panier/adresse/suppression', name: 'delete_address')]
+    #[IsGranted('ROLE_USER')]
     public function delete_address(Request $request, TAddressRepository $TAddressRepository, EntityManagerInterface $entityManager): Response
     {
-        dump('echo');
-        die();
-
         $idAddress = $request->request->get('address-selection');
-
-        // dump($idAddress);
-        // die();
-
-        // if ($idAddrses === '') {
-        //     echo 'test';
-        //     die();
-        // }
 
         $address = $TAddressRepository->find($idAddress);
 
@@ -223,6 +216,7 @@ class CartController extends AbstractController
      * @return Response
      */
     #[Route('utilisateur/panier/product/{id}/add', name: 'app_user_add_product')]
+    #[IsGranted('ROLE_USER')]
     public function add_like(int $id, Request $request, EntityManagerInterface $entityManager, TProductRepository $TProductRepository, RequestStack $requestStack): Response
     {
         //check if the user is logged in, otherwise redirect to the login
@@ -256,6 +250,7 @@ class CartController extends AbstractController
      * @return Response
      */
     #[Route('utilisateur/panier/product/{id}/delete', name: 'app_user_delete_product')]
+    #[IsGranted('ROLE_USER')]
     public function delete_product_cart(int $id, Request $request, EntityManagerInterface $entityManager, TCartRepository $TCartRepository, TProductRepository $TProductRepository): Response
     {
         //check if the user is logged in, otherwise redirect to the login

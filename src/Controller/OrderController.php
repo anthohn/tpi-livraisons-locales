@@ -7,11 +7,17 @@ use App\Repository\TOrderRepository;
 use App\Repository\TAddressRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class OrderController extends AbstractController
 {
+    /**
+     * This method allows the user to view all his commands
+     * @return Response
+     */
     #[Route('utilisateur/commandes', name: 'app_order')]
+    #[IsGranted('ROLE_USER')]
     public function orders(TOrderRepository $TOrderRepository): Response
     {
         //vérifie si l'utilisateur est connecté, sinon redirection vers le login
@@ -30,7 +36,12 @@ class OrderController extends AbstractController
         ]);
     }
 
+    /**
+     * This method allows the user view the details of a command
+     * @return Response
+     */
     #[Route('utilisateur/commande-details/{id}', name: 'app_show_order')]
+    #[IsGranted('ROLE_USER')]
     public function show_order(int $id, TOrderRepository $TOrderRepository, THaveRepository $THaveRepository, TAddressRepository $TAddressRepository): Response
     {
         //vérifie si l'utilisateur est connecté, sinon redirection vers le login

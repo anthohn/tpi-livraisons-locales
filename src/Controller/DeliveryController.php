@@ -7,11 +7,17 @@ use App\Repository\TOrderRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class DeliveryController extends AbstractController
 {
+    /**
+     * This method allow an admin to access to the delivery map
+     * @return Response
+     */
     #[Route('/delivery', name: 'app_delivery')]
+    #[IsGranted('ROLE_ADMIN')]
     public function index(Request $request, TTimeRepository $TTimeRepository, TOrderRepository $TOrderRepository): Response
     {
         $slices = $TTimeRepository->FindAll();
