@@ -27,8 +27,8 @@ class TProduct
     #[ORM\Column(nullable: true)]
     private ?string $imageName = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $proPrice = null;
+    #[ORM\Column(type: Types::FLOAT)]
+    private ?float $proPrice = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $proQuantity = null;
@@ -91,12 +91,12 @@ class TProduct
         return $this->imageName;
     }
 
-    public function getProPrice(): ?int
+    public function getProPrice(): ?float
     {
         return $this->proPrice;
     }
 
-    public function setProPrice(int $proPrice): self
+    public function setProPrice(float $proPrice): self
     {
         $this->proPrice = $proPrice;
 

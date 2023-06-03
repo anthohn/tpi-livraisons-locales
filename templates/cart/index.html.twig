@@ -21,7 +21,7 @@
                                     </div>
                                     <div class="mt-2">
                                         <h5 class="text-xl font-medium leading-tight text-neutral-800">{{ productQuantitie.product.proName }}</h5>
-                                        <h5 class="font-medium leading-tight text-neutral-800">CHF {{ productQuantitie.product.proPrice|number_format(2, '.', ',') }}</h5>
+                                        <h5 class="font-medium leading-tight text-neutral-800">CHF {{ productQuantitie.product.proPrice|number_format(2, '.') }}</h5>
                                         <div class="flex justify-start  gap-4">
                                             <h5 class="font-medium leading-tight text-neutral-800">Quantité : </h5>
                                             <a href="{{ path('app_user_delete_product', {'id': productQuantitie.product.id}) }}">
