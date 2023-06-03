@@ -99,13 +99,14 @@ class CartController extends AbstractController
         //if submitted AND valid
         if($formOrder->isSubmitted() && $formOrder->isValid())
         {
+
             //get all product in cart
             $userCartProducts = $TCartRepository->findBy(['idxUser' => $user]);
             
             //get status
             $status = $TStatusRepository->find(1);
 
-            $order->setOrdDate(new \DateTime());
+            // $order->setOrdDate(new \DateTime());
             $order->setOrdPrice($totalPrice);
             $order->setIdxStatus($status);
             $order->setIdxUser($user);

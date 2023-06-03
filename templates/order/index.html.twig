@@ -6,7 +6,7 @@
 
     <div class="mt-32">
 
-        <h3 class="text-3xl font-bold dark:text-white"><span class="underline underline-offset-4 decoration-8 decoration-green-500">Commandes :</span></h3>
+        <h3 class="text-3xl font-bold"><span class="underline underline-offset-4 decoration-8 decoration-green-500">Commandes :</span></h3>
         <br>
 
         <div class="grid gap-8 mb-6 lg:mb-16 md:grid-cols-3">
@@ -14,9 +14,9 @@
                 <div class="flex justify-center">
                     <div class="block w-full h-48 rounded-lg shadow-lg border-solid border-2 border-black">
                         <div class="p-7 m-0">
-                            <h5 class="text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">CHF {{ userOrder.ordPrice|number_format(2, '.', ',') }}</h5>
-                            <p class="text-base text-neutral-600 dark:text-neutral-200">{{ userOrder.idxStatus.staName }}</p>
-                            <h5 class="font-medium leading-tight text-neutral-800 dark:text-neutral-50">{{ userOrder.ordDate|date('d.m.y') }} {{ userOrder.idxTime.timSlice}}</h5>
+                            <h5 class="text-xl font-medium leading-tight text-neutral-800">CHF {{ userOrder.ordPrice|number_format(2, '.', ',') }}</h5>
+                            <p class="text-base text-neutral-600">{{ userOrder.idxStatus.staName }}</p>
+                            <h5 class="font-medium leading-tight text-neutral-800">{{ userOrder.ordDate|date('d.m.y') }} {{ userOrder.idxTime.timSlice}}</h5>
                             <div class="mt-5">
                                 <a href="{{ path('app_show_order', {'id': userOrder.id}) }}" class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">Voir la commande</a>
                             </div>
