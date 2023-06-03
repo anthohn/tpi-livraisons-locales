@@ -23,7 +23,7 @@
                     <span class="self-center text-3xl font-extrabold whitespace-nowrap">Ferme Cretegny</span>
                 </a>
                 <div class="flex items-center md:order-2">
-                    {% if is_granted("ROLE_USER") %}
+                    {% if is_granted('ROLE_USER') %}
                         <button type="button" class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
                             <span class="sr-only">Open user menu</span>
                             <img class="w-8 h-8 rounded-full" src="https://freesvg.org/img/abstract-user-flat-4.png" alt="user photo">
@@ -67,6 +67,14 @@
                         <li>
                             <a href="{{ path('app_products') }}">Produits</a>
                         </li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <li>
+                            <a class="text-red-800" href="{{ path('app_delivery') }}">Livraison</a>
+                        </li>
+                        <li>
+                            <a class="text-red-800" href="{{ path('admin') }}">Administration</a>
+                        </li>
+                        {% endif %}
                     </ul>
                 </div>
                 

@@ -99,7 +99,6 @@ class CartController extends AbstractController
         //if submitted AND valid
         if($formOrder->isSubmitted() && $formOrder->isValid())
         {
-
             //get all product in cart
             $userCartProducts = $TCartRepository->findBy(['idxUser' => $user]);
             

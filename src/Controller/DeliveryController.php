@@ -50,7 +50,7 @@ class DeliveryController extends AbstractController
             $slices = $TTimeRepository->FindAll();
 
             // api key
-            $google_maps_api_key = '';
+            $google_maps_api_key = 'AIzaSyDPvxNrI_J6sGgaCs02U_GlruqNqCgo_yE';
 
             //redirect with orders
             return $this->render('delivery/index.html.twig', [

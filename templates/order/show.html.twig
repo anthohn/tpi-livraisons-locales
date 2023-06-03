@@ -10,15 +10,17 @@
             <div class="col-span-2">
                 <h3 class="text-3xl font-bold"><span class="underline underline-offset-4 decoration-8 decoration-green-500">Commande :</span></h3>
                 <div class="grid gap-8 md:grid-cols-1 overflow-auto h-96 mt-8">
-                    {% for orderPoduct in orderPoducts %}
+                    {% for productQuantitie in productQuantities %}
                         <div class="block w-full h-32 rounded-lg shadow-lg border-solid border-2 border-black">
                             <div class="flex flex-row gap-8">
                                 <div class="">
+                                    <img class="h-28 rounded-lg m-2" src="{{ vich_uploader_asset(productQuantitie.product, 'imageFile') }}" alt="image du produit">
                                     <img class="rounded-l-lg w-48" src="" alt="" />
                                 </div>
                                 <div class="mt-2">
-                                    <h5 class="text-xl font-medium leading-tight text-neutral-800">{{ orderPoduct.idxProduct.proName }}</h5>
-                                    <h5 class="font-medium leading-tight text-neutral-800">CHF {{ orderPoduct.idxProduct.proPrice|number_format(2, '.', ',') }}</h5>
+                                    <h5 class="text-xl font-medium leading-tight text-neutral-800">{{ productQuantitie.product.proName }}</h5>
+                                    <h5 class="font-medium leading-tight text-neutral-800">CHF {{ productQuantitie.product.proPrice|number_format(2, '.', ',') }}</h5>
+                                    <h5 class="font-medium leading-tight text-neutral-800">Quantité : {{ productQuantitie.quantity }}</h5>
                                 </div>
                             </div> 
                         </div>

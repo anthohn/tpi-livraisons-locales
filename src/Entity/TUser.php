@@ -26,11 +26,11 @@ class TUser implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      */
-    #[ORM\Column]
+    #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message:"Champ requis")]
+    #[Assert\Length(min: 8, max: 255, minMessage: 'Votre mot de passe doit faire minimum 8 caractères')]
     private ?string $password = null;
 
-    #[Assert\NotBlank(message:"Champ requis")]
     #[Assert\EqualTo(propertyPath:"password", message:"Vous n'avez pas tapé le même mot de passe")]
     public $password_confirm;
 

@@ -43,7 +43,7 @@ class SecurityController extends AbstractController
             $hashedPassword = $passwordHasher->hashPassword($user, $user->getPassword());
             $user->setPassword($hashedPassword);
             // set the user role
-            $user->setRoles(['ROLES_USER']);
+            $user->setRoles(['ROLE_USER']);
 
             //save in database
             $manager->persist($user);
