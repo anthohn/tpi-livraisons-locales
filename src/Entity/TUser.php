@@ -19,7 +19,7 @@ class TUser implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180, unique: true)]
+    #[ORM\Column(length: 255, unique: true)]
     #[Assert\NotBlank(message:"Champ requis")]
     private ?string $email = null;
 
@@ -34,18 +34,14 @@ class TUser implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\EqualTo(propertyPath:"password", message:"Vous n'avez pas tapé le même mot de passe")]
     public $password_confirm;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 50)]
     #[Assert\NotBlank(message:"Champ requis")]
     private ?string $useFirstName = null;
 
-    #[ORM\Column(length: 29)]
+    #[ORM\Column(length: 50)]
     #[Assert\NotBlank(message:"Champ requis")]
     private ?string $useLastName = null;
 
-    #[ORM\Column(length: 15)]
-    #[Assert\NotBlank(message:"Champ requis")]
-    private ?string $useNumberPhone = null;
-    
     #[ORM\Column]
     private array $roles = [];
 

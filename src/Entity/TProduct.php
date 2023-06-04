@@ -21,11 +21,11 @@ class TProduct
     #[ORM\Column(length: 50)]
     private ?string $proName = null;
 
-    #[Vich\UploadableField(mapping: 'product_images', fileNameProperty: 'imageName')]
+    #[Vich\UploadableField(mapping: 'product_images', fileNameProperty: 'proImageName')]
     private ?File $imageFile = null;
 
     #[ORM\Column(nullable: true)]
-    private ?string $imageName = null;
+    private ?string $proImageName = null;
 
     #[ORM\Column(type: Types::FLOAT)]
     private ?float $proPrice = null;
@@ -81,14 +81,14 @@ class TProduct
         return $this->imageFile;
     }
 
-    public function setImageName(?string $imageName): void
+    public function setProImageName(?string $proImageName): void
     {
-        $this->imageName = $imageName;
+        $this->proImageName = $proImageName;
     }
 
-    public function getImageName(): ?string
+    public function getProImageName(): ?string
     {
-        return $this->imageName;
+        return $this->proImageName;
     }
 
     public function getProPrice(): ?float

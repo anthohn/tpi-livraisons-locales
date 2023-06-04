@@ -38,7 +38,7 @@ class TProductCrudController extends AbstractCrudController
             NumberField::new('proQuantity', 'Quantité en stock'),
             BooleanField::new('proIsActive', 'En ligne'),
             TextField::new('proDescription', 'Description'),
-            ImageField::new('imageName')
+            ImageField::new('proImageName')
                 ->setUploadDir('/public/images/product')
                 ->hideOnIndex()
         ];
