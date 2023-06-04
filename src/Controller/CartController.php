@@ -103,7 +103,7 @@ class CartController extends AbstractController
             $userCartProducts = $TCartRepository->findBy(['idxUser' => $user]);
             
             //get status
-            $status = $TStatusRepository->find(1);
+            $status = $TStatusRepository->findOneBy(['staName' => 'En cours']);
 
             // $order->setOrdDate(new \DateTime());
             $order->setOrdPrice($totalPrice);
@@ -121,13 +121,22 @@ class CartController extends AbstractController
         foreach ($userCartProducts as $userCartProduct) {
 
             $have = new THave();
-
             $productOrder = $userCartProduct->getIdxProduct();
 
             $have->setIdxOrder($lastOrder);
             $have->setidxProduct($productOrder);
 
             $entityManager->persist($have);
+            $entityManager->flush();
+        }
+
+        //foreach delete quantity product in stock
+        foreach ($userCartProducts as $userCartProduct) {
+
+            $productId = $userCartProduct->getIdxProduct();
+            $newQuantity = $productId->getProQuantity() - 1;
+
+            $productId->setProQuantity($newQuantity);
             $entityManager->flush();
         }
 
