@@ -13,7 +13,7 @@
     <div class="grid grid-flow-col gap-4">
 
         {# form for search date and slice of the day #}
-        <form action="{{ path('app_delivery') }}" method="post" class="row-span-2 col-span-2 grid gap-8 md:grid-cols-2 h-1/2">
+        <form action="" method="post" class="row-span-2 col-span-2 grid gap-8 md:grid-cols-2 h-1/2">
 
             <div>
                 <input name="date" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
@@ -33,6 +33,7 @@
             </div>
         </form>
 
+        {% if orders %}
         {# map of the delivery with points #}
         <div class="col-span-2">
 
@@ -100,28 +101,28 @@
             </script>
         </div>
 
-        {# listing orders of selected day #}
-        <div class="row-span-3">
-            <div class="grid gap-8 md:grid-cols-1 overflow-auto h-96">
-                {% for order in orders %}
-                    <div class="block w-full h-48 rounded-lg shadow-lgborder-solid border-2 border-black">
-                        <div class="flex flex-row gap-8">
-                            <div class="p-4 m-0">
-                            <h5 class="text-xl font-medium leading-tight text-neutral-800">CHF {{ order.ordPrice|number_format(2, '.', ',') }}</h5>
-                            <p class="text-base text-neutral-600">{{ order.idxStatus.staName }}</p>
-                            <h5 class="font-medium leading-tight text-neutral-800">{{ order.ordDate|date('d.m.y') }} {{ order.idxTime.timSlice }}</h5>
-                            <p class="text-base text-neutral-600">{{ order.idxAddress.addAddress }}</p>
-                            <div class="mt-5">
-                                <a href="{{ path('app_show_order', {'id': order.id}) }}" class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">Voir la commande</a>
+            {# listing orders of selected day #}
+            <div class="row-span-3">
+                    <h3 class="text-2xl font-semibold mb-10">Commandes du : {{ europeanFormat }}</h3>
+                    <div class="grid gap-8 md:grid-cols-1 overflow-auto h-96">
+                        {% for order in orders %}
+                            <div class="block w-full h-48 rounded-lg shadow-lgborder-solid border-2 border-black">
+                                <div class="flex flex-row gap-8">
+                                    <div class="p-4 m-0">
+                                    <h5 class="text-xl font-medium leading-tight text-neutral-800">CHF {{ order.ordPrice|number_format(2, '.', ',') }}</h5>
+                                    <p class="text-base text-neutral-600">{{ order.idxStatus.staName }}</p>
+                                    <h5 class="font-medium leading-tight text-neutral-800">{{ order.ordDate|date('d.m.y') }} {{ order.idxTime.timSlice }}</h5>
+                                    <p class="text-base text-neutral-600">{{ order.idxAddress.addAddress }}</p>
+                                    <div class="mt-5">
+                                        <a href="{{ path('app_show_order', {'id': order.id}) }}" class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">Voir la commande</a>
+                                    </div>
+                                </div>
+                                </div> 
                             </div>
-                        </div>
-                        </div> 
+                        {% endfor %}
                     </div>
-                {% endfor %}
             </div>
-
-        </div>
-
+        {% endif %}
     </div>
 
 </div>

@@ -36,7 +36,6 @@ class TUserCrudController extends AbstractCrudController
                 ->setFormTypeOption('disabled', 'disabeled'),
             TextField::new('useFirstName', 'Prénom'),
             TextField::new('useLastName', 'Nom'),
-            TextField::new('useNumberPhone', 'Numéro de téléphone'),
             DateTimeField::new('useCreatedDate', 'Date de création du compte')
                 ->setFormTypeOption('disabled', 'disabeled'),
             ArrayField::new('roles')

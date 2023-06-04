@@ -24,6 +24,7 @@ class DeliveryController extends AbstractController
 
         $orders = NULL;
         $google_maps_api_key = NULL;
+        $europeanFormat = NULL;
 
         // if form if submit
         if ($request->isMethod('POST')) {
@@ -35,7 +36,10 @@ class DeliveryController extends AbstractController
             $formSlice = $request->request->get('checkSlice');
 
             //convert the date to a DateTime object
-            $dateObj = new \DateTime($formDate);            
+            $dateObj = new \DateTime($formDate);              
+
+            // convert the date to the European format
+            $europeanFormat = $dateObj->format('d/m/Y');
 
             // get time table slice
             $slice = $TTimeRepository->Find($formSlice);
@@ -57,7 +61,8 @@ class DeliveryController extends AbstractController
                 'controller_name' => 'DeliveryController',
                 'orders' => $orders,
                 'slices' => $slices,
-                'google_maps_api_key' => $google_maps_api_key
+                'google_maps_api_key' => $google_maps_api_key,
+                'europeanFormat' => $europeanFormat
             ]);     
         }
 
@@ -65,7 +70,8 @@ class DeliveryController extends AbstractController
             'controller_name' => 'DeliveryController',
             'orders' => $orders,
             'slices' => $slices,
-            'google_maps_api_key' => $google_maps_api_key
+            'google_maps_api_key' => $google_maps_api_key,
+            'europeanFormat' => $europeanFormat
         ]);
     }
 }
