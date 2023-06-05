@@ -70,10 +70,7 @@ class CartController extends AbstractController
         //get journey slice
         $journeySlices = $TTimeRepository->findAll();
 
-        //get personn title
-        $titles = $TTitleRepository->findAll();
-
-        //allows to display the number of items with s or not
+        //allows to display the number of product in the cart
         $productCount = count($userCartProducts);
 
         //calculate the total price of the cart
@@ -99,11 +96,25 @@ class CartController extends AbstractController
         //if submitted AND valid
         if($formOrder->isSubmitted() && $formOrder->isValid())
         {
-            //get all product in cart
-            $userCartProducts = $TCartRepository->findBy(['idxUser' => $user]);
-            
+            dump($productQuantities);
+            // die();
+
+            // condition command
+            if (!(isset($productQuantities[1]) && $productQuantities[1]['quantity'] >= 2)
+            && !(isset($productQuantities[2]) && $productQuantities[2]['quantity'] >= 2)
+            && !(isset($productQuantities[1]) && $productQuantities[1]['quantity'] >= 1 && isset($productQuantities[2]) && $productQuantities[2]['quantity'] >= 1)) 
+            {
+                $this->addFlash(
+                    'alert',
+                    'Les conditions nécessaires pour passer commande ne sont pas remplies.'
+                );
+    
+                //return on the cart page
+                return $this->redirectToRoute('app_user_cart');
+            }
+                        
             //get status
-            $status = $TStatusRepository->findOneBy(['staName' => 'En cours']);
+            $status = $TStatusRepository->find(1);
 
             // $order->setOrdDate(new \DateTime());
             $order->setOrdPrice($totalPrice);
@@ -117,37 +128,37 @@ class CartController extends AbstractController
             $lastId = $order->getId();
             $lastOrder = $TOrderRepository->find($lastId);
             
-        //foreach link product and last order of the user
-        foreach ($userCartProducts as $userCartProduct) {
+            //foreach link product and last order of the user
+            foreach ($userCartProducts as $userCartProduct) {
 
-            $have = new THave();
-            $productOrder = $userCartProduct->getIdxProduct();
+                $have = new THave();
+                $productOrder = $userCartProduct->getIdxProduct();
 
-            $have->setIdxOrder($lastOrder);
-            $have->setidxProduct($productOrder);
+                $have->setIdxOrder($lastOrder);
+                $have->setidxProduct($productOrder);
 
-            $entityManager->persist($have);
-            $entityManager->flush();
-        }
+                $entityManager->persist($have);
+                $entityManager->flush();
+            }
 
-        //foreach delete quantity product in stock
-        foreach ($userCartProducts as $userCartProduct) {
+            //foreach delete quantity product in stock
+            foreach ($userCartProducts as $userCartProduct) {
 
-            $productId = $userCartProduct->getIdxProduct();
-            $newQuantity = $productId->getProQuantity() - 1;
+                $productId = $userCartProduct->getIdxProduct();
+                $newQuantity = $productId->getProQuantity() - 1;
 
-            $productId->setProQuantity($newQuantity);
-            $entityManager->flush();
-        }
+                $productId->setProQuantity($newQuantity);
+                $entityManager->flush();
+            }
 
-        //foreach delete product in the cart
-        foreach ($userCartProducts as $userCartProduct) {
+            //foreach delete product in the cart
+            foreach ($userCartProducts as $userCartProduct) {
 
-            $entityManager->remove($userCartProduct);
-            $entityManager->flush();
-        }
+                $entityManager->remove($userCartProduct);
+                $entityManager->flush();
+            }
 
-        return $this->redirectToRoute('app_show_order', ['id' => $lastId]);
+            return $this->redirectToRoute('app_show_order', ['id' => $lastId]);
         }
 
         return $this->render('cart/index.html.twig', [
@@ -156,7 +167,6 @@ class CartController extends AbstractController
             'productQuantities' => $productQuantities,
             'userAddresses' => $userAddresses,
             'journeySlices' => $journeySlices,
-            'titles' => $titles,
             'totalPrice' => $totalPrice,
             'formOrder' => $formOrder->createView()
         ]);
@@ -217,6 +227,8 @@ class CartController extends AbstractController
     {
         $idAddress = $request->request->get('address-selection');
 
+        dd($request);
+        die();
         $address = $TAddressRepository->find($idAddress);
 
         $entityManager->remove($address);

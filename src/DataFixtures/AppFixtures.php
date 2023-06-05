@@ -9,6 +9,7 @@ use App\Entity\TTime;
 
 use App\Entity\TUser;
 use App\Entity\TTitle;
+use App\Entity\TStatus;
 use App\Entity\TProduct;
 use Faker\Provider\Image;
 use Doctrine\Persistence\ObjectManager;
@@ -45,7 +46,7 @@ class AppFixtures extends Fixture
             ->setRoles(['ROLE_USER', 'ROLE_ADMIN'])
             ->setUseNumberPhone('+41000000000')
             ->setUseCreatedDate($this->faker->dateTimeThisMonth())
-            ->setPassword('password');
+            ->setPassword('$2y$13$KYgZNICcEJKJt7bpBDtMcuIkLWe7Fzkd1I42hxjduViiC50eEhIb.'); //12345678$
 
         $users[] = $admin;
         $manager->persist($admin);
@@ -60,7 +61,7 @@ class AppFixtures extends Fixture
                 ->setRoles(['ROLE_USER'])
                 ->setUseNumberPhone($this->faker->e164PhoneNumber())
                 ->setUseCreatedDate($this->faker->dateTimeThisMonth())
-                ->setPassword('password')   
+                ->setPassword('$2y$13$88EpDrWOBWc/SQAqZBBFzuypQHXSHC7eJCWF4IeceLVk37.ZWMJeq') //12345678 
             ;
             $users[] = $user;
             $manager->persist($user);
@@ -88,11 +89,21 @@ class AppFixtures extends Fixture
         }
         $manager->flush();
 
+        // create status of command
+        $status = ['En cours', 'Livré'];
+
+        foreach ($status as $staName) {
+            $statu = new TStatus();
+            $statu->setStaName($staName);
+            $manager->persist($statu);
+        }
+        $manager->flush();
 
 
 
 
-        //products 
+
+        //products creation
         for ($i = 0; $i < 100; $i++) {
             $product = new TProduct();
             $product->setProName('Produit ' . $i)
