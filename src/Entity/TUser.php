@@ -9,9 +9,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: TUserRepository::class)]
+#[UniqueEntity(fields: "useEmail", message: "L'email que vous avez indiqué est déjà utilisé !")]
 class TUser implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -21,7 +23,8 @@ class TUser implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, unique: true)]
     #[Assert\NotBlank(message:"Champ requis")]
-    private ?string $email = null;
+    #[Assert\Email(message: "Le champ doit contenir une adresse e-mail valide")]
+    private ?string $useEmail = null;
 
     /**
      * @var string The hashed password
@@ -43,7 +46,7 @@ class TUser implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $useLastName = null;
 
     #[ORM\Column]
-    private array $roles = [];
+    private array $useRoles = [];
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $useCreatedDate = null;
@@ -69,14 +72,14 @@ class TUser implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    public function getEmail(): ?string
+    public function getUseEmail(): ?string
     {
-        return $this->email;
+        return $this->useEmail;
     }
 
-    public function setEmail(string $email): self
+    public function setUseEmail(string $useEmail): self
     {
-        $this->email = $email;
+        $this->useEmail = $useEmail;
 
         return $this;
     }
@@ -88,7 +91,7 @@ class TUser implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string) $this->useEmail;
     }
 
     /**
@@ -96,16 +99,16 @@ class TUser implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
-        $roles = $this->roles;
+        $useRoles = $this->useRoles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $useRoles[] = 'ROLE_USER';
 
-        return array_unique($roles);
+        return array_unique($useRoles);
     }
 
-    public function setRoles(array $roles): self
+    public function setRoles(array $useRoles): self
     {
-        $this->roles = $roles;
+        $this->useRoles = $useRoles;
 
         return $this;
     }
