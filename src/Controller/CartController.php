@@ -96,8 +96,6 @@ class CartController extends AbstractController
         //if submitted AND valid
         if($formOrder->isSubmitted() && $formOrder->isValid())
         {
-            dump($productQuantities);
-            // die();
 
             // condition command
             if (!(isset($productQuantities[1]) && $productQuantities[1]['quantity'] >= 2)
@@ -116,7 +114,6 @@ class CartController extends AbstractController
             //get status
             $status = $TStatusRepository->find(1);
 
-            // $order->setOrdDate(new \DateTime());
             $order->setOrdPrice($totalPrice);
             $order->setIdxStatus($status);
             $order->setIdxUser($user);

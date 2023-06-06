@@ -48,9 +48,13 @@
                                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                 <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
                             </svg>
-                            Condition de commande :
-                            {# <br> 2 litres de lait <br> Ou deux boites de 6 oeufs <br> Ou 1 boite d'oeufs avec 1 litre de lait #}
+                            <h3 class="font-bold">Condition de commande : </h3> <br> 
                         </div>
+                    </div>
+                    <div>
+                        Option 1 : Minimum 2 litres de lait. <br>
+                        Option 2 : Minimum 2 boîtes de 6 œufs. <br>
+                        Option 3 : Minimum 1 boîte d'œufs + 1 litre de lait
                     </div>
                 </div>
                 <div>
@@ -95,10 +99,8 @@
                             <h3 class="text-2xl font-semibold">Date de livraison souhaité :</h3>
                             <br>
                             <div class="grid gap-8 md:grid-cols-2">
-
                                 {{ form_row(formOrder.ordDate, {'label': false, 'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 datepicker-input'}}) }}
                                 {{ form_row(formOrder.idxTime, {'label': false, 'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'}}) }}
-
                             </div>
                             <br>
                             <button type="submit" class="text-black bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2">

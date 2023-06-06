@@ -68,12 +68,12 @@
                             <a href="{{ path('app_products') }}">Produits</a>
                         </li>
                         {% if is_granted('ROLE_ADMIN') %}
-                        <li>
-                            <a class="text-red-800" href="{{ path('app_delivery') }}">Livraison</a>
-                        </li>
-                        <li>
-                            <a class="text-red-800" href="{{ path('admin') }}">Administration</a>
-                        </li>
+                            <li>
+                                <a class="text-red-800" href="{{ path('app_delivery') }}">Livraison</a>
+                            </li>
+                            <li>
+                                <a class="text-red-800" href="{{ path('admin') }}">Administration</a>
+                            </li>
                         {% endif %}
                     </ul>
                 </div>

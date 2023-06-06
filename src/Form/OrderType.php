@@ -31,9 +31,6 @@ class OrderType extends AbstractType
         ->add('ordDate', DateType::class, [
             'widget' => 'single_text'
         ])
-        // ->add('ordPrice')
-        // ->add('idxStatus')
-        // ->add('idxUser')
         ;
     }
 

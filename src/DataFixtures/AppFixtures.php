@@ -100,20 +100,25 @@ class AppFixtures extends Fixture
         $manager->flush();
 
 
+        //product 1 creation (milk)
+        $product1 = new TProduct();
+        $product1->setProName('Bouteille de lait de 1 litre')
+            ->setProPrice(4.95)
+            ->setProQuantity(mt_rand(15, 100))
+            ->setProDescription($this->faker->text(300))
+            ->setProIsActive(1)
+            ->setProImageName('milk.jpg');
+        $manager->persist($product1);
 
-
-
-        //products creation
-        for ($i = 0; $i < 100; $i++) {
-            $product = new TProduct();
-            $product->setProName('Produit ' . $i)
-                ->setProPrice(mt_rand(5, 20))
-                ->setProQuantity(mt_rand(15, 100))
-                ->setProDescription($this->faker->text(300))
-                ->setProIsActive(mt_rand(0, 1));
-                
-            $manager->persist($product);
-        }
+        //product 2 creation (eggs)
+        $product2 = new TProduct();
+        $product2->setProName('Boîte de 6 oeufs BIO')
+            ->setProPrice(6.95)
+            ->setProQuantity(mt_rand(15, 100))
+            ->setProDescription($this->faker->text(300))
+            ->setProIsActive(1)
+            ->setProImageName('eggs.png');
+        $manager->persist($product2);
 
         $manager->flush();
 
