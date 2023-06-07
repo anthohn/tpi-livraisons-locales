@@ -16,10 +16,10 @@ class TAddress
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 70)]
     private ?string $addAddress = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 50)]
     private ?string $addCity = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
@@ -28,10 +28,10 @@ class TAddress
     #[ORM\Column(length: 25)]
     private ?string $addCountry = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(type: Types::FLOAT)]
     private ?string $addLatitude = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(type: Types::FLOAT)]
     private ?string $addLongitude = null;
 
     #[ORM\ManyToOne(inversedBy: 'tAddresses')]
@@ -45,10 +45,10 @@ class TAddress
     #[ORM\JoinColumn(nullable: false)]
     private ?TTitle $idxTitle = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 50)]
     private ?string $addFirstName = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 50)]
     private ?string $addLastName = null;
 
     public function __construct()

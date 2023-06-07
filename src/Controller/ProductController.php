@@ -21,7 +21,7 @@ class ProductController extends AbstractController
     }
 
     /**
-     * This method redirect a empty url -> "/" to the home page
+     * This method display the home page
      * @return Response
      */
     #[Route('/accueil', name: 'app_home')]

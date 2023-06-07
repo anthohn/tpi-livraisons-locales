@@ -17,8 +17,8 @@ class TOrder
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $ordDate = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $ordPrice = null;
+    #[ORM\Column(type: Types::FLOAT)]
+    private ?float $ordPrice = null;
 
     #[ORM\ManyToOne(inversedBy: 'tOrders')]
     #[ORM\JoinColumn(nullable: false)]
@@ -53,12 +53,12 @@ class TOrder
         return $this;
     }
 
-    public function getOrdPrice(): ?int
+    public function getOrdPrice(): ?float
     {
         return $this->ordPrice;
     }
 
-    public function setOrdPrice(int $ordPrice): self
+    public function setOrdPrice(float $ordPrice): self
     {
         $this->ordPrice = $ordPrice;
 

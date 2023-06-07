@@ -8,17 +8,19 @@
 
         <div class="grid gap-8 md:grid-cols-3">
             <div class="col-span-2">
-                <h3 class="text-3xl font-bold dark:text-white"><span class="underline underline-offset-4 decoration-8 decoration-green-500">Commande :</span></h3>
+                <h3 class="text-3xl font-bold"><span class="underline underline-offset-4 decoration-8 decoration-green-500">Commande :</span></h3>
                 <div class="grid gap-8 md:grid-cols-1 overflow-auto h-96 mt-8">
-                    {% for orderPoduct in orderPoducts %}
-                        <div class="block w-full h-32 rounded-lg shadow-lg dark:bg-neutral-900 border-solid border-2 border-black">
+                    {% for productQuantitie in productQuantities %}
+                        <div class="block w-full h-32 rounded-lg shadow-lg border-solid border-2 border-black">
                             <div class="flex flex-row gap-8">
                                 <div class="">
+                                    <img class="h-28 rounded-lg m-2" src="{{ vich_uploader_asset(productQuantitie.product, 'imageFile') }}" alt="image du produit">
                                     <img class="rounded-l-lg w-48" src="" alt="" />
                                 </div>
                                 <div class="mt-2">
-                                    <h5 class="text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">{{ orderPoduct.idxProduct.proName }}</h5>
-                                    <h5 class="font-medium leading-tight text-neutral-800 dark:text-neutral-50">CHF {{ orderPoduct.idxProduct.proPrice|number_format(2, '.', ',') }}</h5>
+                                    <h5 class="text-xl font-medium leading-tight text-neutral-800">{{ productQuantitie.product.proName }}</h5>
+                                    <h5 class="font-medium leading-tight text-neutral-800">CHF {{ productQuantitie.product.proPrice|number_format(2, '.', ',') }}</h5>
+                                    <h5 class="font-medium leading-tight text-neutral-800">Quantité : {{ productQuantitie.quantity }}</h5>
                                 </div>
                             </div> 
                         </div>
@@ -26,30 +28,30 @@
                 </div>
             </div>
             <div> 
-                <h3 class="text-3xl font-bold dark:text-white">Total</h3>
+                <h3 class="text-3xl font-bold">Total</h3>
                 <br>
                 <div class="flex justify-between">
-                    <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Sous-total :</p>
-                    <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">CHF {{ userOrder.ordPrice|number_format(2, '.', ',')  }}</p>
+                    <p class="text-lg font-normal text-gray-500 lg:text-xl">Sous-total :</p>
+                    <p class="text-lg font-normal text-gray-500 lg:text-xl">CHF {{ userOrder.ordPrice|number_format(2, '.', ',')  }}</p>
                 </div>
                 <br>
                 <div class="flex justify-between">
-                    <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Status :</p>
-                    <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">{{ userOrder.idxStatus.staName }}</p>
+                    <p class="text-lg font-normal text-gray-500 lg:text-xl">Status :</p>
+                    <p class="text-lg font-normal text-gray-500 lg:text-xl">{{ userOrder.idxStatus.staName }}</p>
                 </div>
                 <br>
                 <div class="flex justify-between">
-                    <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Adresse de livraison : </p>
-                    <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">{{ userOrder.idxAddress.addAddress }}</p>
+                    <p class="text-lg font-normal text-gray-500 lg:text-xl">Adresse de livraison : </p>
+                    <p class="text-lg font-normal text-gray-500 lg:text-xl">{{ userOrder.idxAddress.addAddress }}</p>
                 </div>
                 <br>
                 <div class="flex justify-between">
-                    <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Date de livraison : </p>
-                    <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">{{ userOrder.ordDate|date('d.m.y') }}</p>
+                    <p class="text-lg font-normal text-gray-500 lg:text-xl">Date de livraison : </p>
+                    <p class="text-lg font-normal text-gray-500 lg:text-xl">{{ userOrder.ordDate|date('d.m.y') }}</p>
                 </div>
                 <div class="flex justify-between">
-                    <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Tranche de la journée : </p>
-                    <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">{{ userOrder.idxTime.timSlice }}</p>
+                    <p class="text-lg font-normal text-gray-500 lg:text-xl">Tranche de la journée : </p>
+                    <p class="text-lg font-normal text-gray-500 lg:text-xl">{{ userOrder.idxTime.timSlice }}</p>
                 </div>
             </div>
         </div>
@@ -74,7 +76,7 @@
         initMap();
     </script>
     
-    <h3 class="text-3xl font-bold dark:text-white">Carte :</h3>
+    <h3 class="text-3xl font-bold">Carte :</h3>
     <br>
     <!--The div element for the map -->
     <div id="map"></div>

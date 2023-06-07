@@ -60,12 +60,33 @@ class OrderController extends AbstractController
         //get product of the order
         $orderPoducts = $THaveRepository->FindBy(['idxOrder' => $userOrder]);
 
+        //initate count quantity
+        $productQuantities = [];
+
+        foreach ($orderPoducts as $orderPoduct) 
+        {
+            $productId = $orderPoduct->getIdxProduct()->getId();
+
+            // If the product already exists in the $productQuantities array, increment the quantity
+            if (array_key_exists($productId, $productQuantities))
+            {
+                $productQuantities[$productId]['quantity'] += 1;
+            } 
+            // If the product does not exist in the $productQuantities array add it with an initial quantity of 1
+            else {
+                $productQuantities[$productId] = [
+                    'product' => $orderPoduct->getIdxProduct(),
+                    'quantity' => 1 // Add the item with an initial quantity of 1
+                ];
+            }
+        }
+
         $google_maps_api_key = 'AIzaSyDPvxNrI_J6sGgaCs02U_GlruqNqCgo_yE';
 
         return $this->render('order/show.html.twig', [
             'controller_name' => 'OrderController',
             'userOrder' => $userOrder,
-            'orderPoducts' => $orderPoducts,
+            'productQuantities' => $productQuantities,
             'userId' => $userId,
             'google_maps_api_key' => $google_maps_api_key
         ]);
