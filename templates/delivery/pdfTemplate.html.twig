@@ -1,25 +1,20 @@
-
-
 <div class="mt-32">
-
-
     {# listing orders of selected day #}
     <div class="row-span-3">
-
-        <h3 class="text-2xl font-semibold mb-10">Commandes du : {{ europeanFormat }} | {{ sliceName }}</h3>
+        <h3 class="text-4xl font-semibold mb-10">Commandes du : {{ europeanFormat }} | {{ sliceName }}</h3>
         <div class="grid gap-8 md:grid-cols-1 overflow-auto h-96 mt-10">
-            {% for order in orders %}
-                <div class="block w-full h-48 rounded-lg shadow-lgborder-solid border-2 border-black">
+            {% for orderId, data in productsAndAddresses %}
+                <div class="block w-full h-48 rounded-lg shadow-lg border-solid border-2 border-black">
                     <div class="flex flex-row gap-8">
-                        <div class="p-4 m-0">
-                        <h5 class="text-xl font-medium leading-tight text-neutral-800">CHF {{ order.ordPrice|number_format(2, '.', ',') }}</h5>
-                        <h5 class="font-medium leading-tight text-neutral-800">{{ order.ordDate|date('d.m.y') }} {{ order.idxTime.timSlice }}</h5>
-                        <p class="text-base text-neutral-600">{{ order.idxAddress.addAddress }}</p>
+                        <p class="font-medium leading-tight text-neutral-800">{{ data['address'] }}</p>
+                        <h5 class="text-xl font-medium leading-tight text-neutral-800">Produits :</h5>
+                        {% for productName, productCount in data['productsCount'] %}
+                            <p class="text-base text-neutral-600">{{ productCount }}x : {{ productName }}</p>
+                        {% endfor %}
                     </div>
-                    </div> 
                 </div>
+                <p>---------------------------------------------------------------------------------</p>
             {% endfor %}
         </div>
     </div>
-
 </div>

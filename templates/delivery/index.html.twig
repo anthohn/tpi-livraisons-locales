@@ -14,11 +14,9 @@
 
         {# form for search date and slice of the day #}
         <form action="" method="post" class="row-span-2 col-span-2 grid gap-8 md:grid-cols-2 h-1/2">
-
             <div>
                 <input name="date" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
             </div>
-
             <div>
                 {% for slice in slices %}
                     <div class="form-check form-check-inline">
@@ -28,15 +26,13 @@
                         </label>
                     </div>
                 {% endfor %}
-                
-                <button type="submit" class="text-black bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Rechercher</button>
+                <button type="submit" class="text-black bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Rechercher</button>
             </div>
         </form>
 
         {% if orders %}
-            {# map of the delivery with points #}
+            {# map of the Sdelivery with points #}
             <div class="col-span-2">
-
                 {# title #}
                 <h3 class="text-3xl font-semibold mb-10">Carte de livraison :</h3>
 
@@ -103,9 +99,8 @@
 
             {# listing orders of selected day #}
             <div class="row-span-3">
-
                     <h3 class="text-2xl font-semibold mb-10">Commandes du : {{ europeanFormat }} | {{ sliceName }}</h3>
-                    <a href="#" class="text-black bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">Extraire le pdf</a>
+                    <a href="{{ path('app_delivery_pdf', {'date': formDate, 'slice': formSlice}) }}" class="text-black bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">Extraire le pdf</a>
                     <div class="grid gap-8 md:grid-cols-1 overflow-auto h-96 mt-10">
                         {% for order in orders %}
                             <div class="block w-full h-48 rounded-lg shadow-lgborder-solid border-2 border-black">

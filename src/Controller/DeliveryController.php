@@ -2,14 +2,15 @@
 
 namespace App\Controller;
 
+use DateTime;
 use Dompdf\Dompdf;
 use Twig\Environment;
 use App\Repository\THaveRepository;
 use App\Repository\TTimeRepository;
 use App\Repository\TOrderRepository;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,7 +24,7 @@ class DeliveryController extends AbstractController
      */
     #[Route('/delivery', name: 'app_delivery')]
     #[IsGranted('ROLE_ADMIN')]
-    public function index(Request $request, TTimeRepository $TTimeRepository, THaveRepository $THaveRepository, Environment $twig): Response
+    public function index(Request $request, TTimeRepository $TTimeRepository, THaveRepository $THaveRepository, TOrderRepository $TOrderRepository, Environment $twig): Response
     {
         $slices = $TTimeRepository->FindAll();
         $orders = NULL;
@@ -50,56 +51,29 @@ class DeliveryController extends AbstractController
 
             $sliceName = $slice->getTimSlice();
 
-            // // find orders by date and time
-            // $orders = $TOrderRepository->findBy([
-            //     'ordDate' => $dateObj,
-            //     'idxTime' => $slice
-            // ]);
-
-             // find orders by date and time
-             $orders = $THaveRepository->findBy([
-                'idxOrder' => [
-                    'ordDate' => $dateObj
-                ]
+            // find orders by date and time
+            $orders = $TOrderRepository->findBy([
+                'ordDate' => $dateObj,
+                'idxTime' => $slice
             ]);
-
-            dump($orders);
-
 
             // get time table slice
             $slices = $TTimeRepository->FindAll();
             
-
             // api key
             $google_maps_api_key = 'AIzaSyDPvxNrI_J6sGgaCs02U_GlruqNqCgo_yE';
 
-
-
-
-            $dompdf = new Dompdf();
-            // Render the Twig template with the orders variable
-            $dompdf->load_html($this->renderView('delivery/pdfTemplate.html.twig', [
-                'orders' => $orders,
-                'europeanFormat' => $europeanFormat,
-                'sliceName' => $sliceName
-            ]));
-
-            // Render the HTML as PDF
-            $dompdf->render();
-
-            // Output the generated PDF to Browser
-            $dompdf->stream();
-
-
-            
             //redirect with orders
             return $this->render('delivery/index.html.twig', [
                 'controller_name' => 'DeliveryController',
                 'orders' => $orders,
+                'slice' => $slice,
                 'slices' => $slices,
                 'sliceName' => $sliceName,
                 'google_maps_api_key' => $google_maps_api_key,
-                'europeanFormat' => $europeanFormat
+                'europeanFormat' => $europeanFormat,
+                'formDate' => $formDate,
+                'formSlice' => $formSlice
             ]);     
         }
 
@@ -112,42 +86,74 @@ class DeliveryController extends AbstractController
         ]);
     }
 
-    #[Route('/delivery/pdf', name: 'app_delivery_pdf')]
+    /**
+     * This method allow an admin to generate pdf on delivery
+     * @return Response
+     */
+    #[Route('/delivery/pdf/{date}/{slice}', name: 'app_delivery_pdf')]
     #[IsGranted('ROLE_ADMIN')]
-    public function generatePdfPersonne(Request $request, TOrderRepository $TOrderRepository, TTimeRepository $TTimeRepository): Response
+    public function generatePdfDelivery(Request $request, DateTime $date, int $slice, TOrderRepository $TOrderRepository, THaveRepository $THaveRepository, TTimeRepository $TTimeRepository): Response
     {
-        // get the date of the request
-        $formDate = $request->request->get('date');
+           // find orders by date and time
+           $orders = $TOrderRepository->findBy([
+            'ordDate' => $date,
+            'idxTime' => $slice
+        ]);
 
+        $sliceName = $TTimeRepository->find($slice)->getTimSlice();
 
-        //convert the date to a DateTime object
-        $dateObj = new \DateTime($formDate);   
+        $europeanFormat = $date->format('Y-m-d');
+
+        $productsAndAddresses = [];
+
+        foreach ($orders as $order) {
+            $orderId = $order->getId();
         
-
-        // get the slice of the request
-        $formSlice = 1;
-
-        // get time table slice
-        $slice = $TTimeRepository->Find($formSlice);
-
-        // instantiate and use the dompdf class
+            $haves = $THaveRepository->findBy([
+                'idxOrder' => $orderId,
+            ]);
+        
+            $address = $order->getIdxAddress()->getAddAddress();
+            $productsCount = [];
+        
+            foreach ($haves as $have) {
+                $product = $have->getIdxProduct();
+                $productName = $product->getProName();
+        
+                if (isset($productsCount[$productName])) {
+                    $productsCount[$productName]++;
+                } else {
+                    $productsCount[$productName] = 1;
+                }
+            }
+        
+            $productsAndAddresses[$orderId] = [
+                'address' => $address,
+                'productsCount' => $productsCount,
+            ];
+        }
+        
         $dompdf = new Dompdf();
-        $dompdf->load_html($this->renderView('delivery/index.html.twig', [
-            'test' => $TOrderRepository->findBy([
-                'ordDate' => $dateObj,
-                'idxTime' => $slice
-        ])]));
+        
+        // Render the Twig template with the orders variable
+        $dompdf->load_html($this->renderView('delivery/pdfTemplate.html.twig', [
+            'productsAndAddresses' => $productsAndAddresses,
+            'sliceName' => $sliceName,
+            'europeanFormat' => $europeanFormat
+        ]));
 
+        // Render the HTML as PDF
+        $dompdf->render();
 
+        // Output the generated PDF to Browser
+        $dompdf->stream();
 
-// Render the HTML as PDF
-$dompdf->render();
+        dump($dompdf);
+        die();
 
-// Output the generated PDF to Browser
-$dompdf->stream();
-
-
-
+        return $this->render('delivery/index.html.twig', [
+            'controller_name' => 'DeliveryController',
+        ]);
     }
 
 }
