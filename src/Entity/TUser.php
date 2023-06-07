@@ -13,7 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: TUserRepository::class)]
-#[UniqueEntity(fields: "useEmail", message: "L'email que vous avez indiqué est déjà utilisé !")]
+#[UniqueEntity(fields: "email", message: "L'email que vous avez indiqué est déjà utilisé !")]
 class TUser implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -24,7 +24,7 @@ class TUser implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, unique: true)]
     #[Assert\NotBlank(message:"Champ requis")]
     #[Assert\Email(message: "Le champ doit contenir une adresse e-mail valide")]
-    private ?string $useEmail = null;
+    private ?string $email = null;
 
     /**
      * @var string The hashed password
@@ -72,14 +72,14 @@ class TUser implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    public function getUseEmail(): ?string
+    public function getEmail(): ?string
     {
-        return $this->useEmail;
+        return $this->email;
     }
 
-    public function setUseEmail(string $useEmail): self
+    public function setEmail(string $email): self
     {
-        $this->useEmail = $useEmail;
+        $this->email = $email;
 
         return $this;
     }
@@ -91,7 +91,7 @@ class TUser implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->useEmail;
+        return (string) $this->email;
     }
 
     /**
