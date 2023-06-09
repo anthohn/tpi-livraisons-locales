@@ -44,7 +44,7 @@ class DeliveryController extends AbstractController
             $dateObj = new \DateTime($formDate);              
 
             // convert the date to the European format
-            $europeanFormat = $dateObj->format('Y-m-d');
+            $europeanFormat = $dateObj->format('d.m.y');
 
             // get time table slice
             $slice = $TTimeRepository->Find($formSlice);
@@ -102,7 +102,7 @@ class DeliveryController extends AbstractController
 
         $sliceName = $TTimeRepository->find($slice)->getTimSlice();
 
-        $europeanFormat = $date->format('Y-m-d');
+        $europeanFormat = $date->format('d.m.y');
 
         $productsAndAddresses = [];
 
@@ -114,6 +114,9 @@ class DeliveryController extends AbstractController
             ]);
         
             $address = $order->getIdxAddress()->getAddAddress();
+            $useFirstName = $order->getIdxAddress()->getAddFirstName();
+            $useLastName = $order->getIdxAddress()->getAddLastName();
+
             $productsCount = [];
         
             foreach ($haves as $have) {
@@ -130,6 +133,8 @@ class DeliveryController extends AbstractController
             $productsAndAddresses[$orderId] = [
                 'address' => $address,
                 'productsCount' => $productsCount,
+                'useFirstName' => $useFirstName,
+                'useLastName' => $useLastName
             ];
         }
         

@@ -21,10 +21,6 @@ class OrderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('idxAddress', EntityType::class, [
-                'class' => TAddress::class,
-                'choice_label' => 'addAddress'
-                ])
             ->add('idxTime', EntityType::class, [
                 'class' => TTime::class,
                 'choice_label' => 'timSlice'

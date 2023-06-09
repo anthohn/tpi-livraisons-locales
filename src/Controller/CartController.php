@@ -111,12 +111,16 @@ class CartController extends AbstractController
                 return $this->redirectToRoute('app_user_cart');
             }
                         
+            $addressId = $request->request->get('address');
+            $address = $TAddressRepository->find($addressId);
+
             //get status
             $status = $TStatusRepository->find(1);
 
             $order->setOrdPrice($totalPrice);
             $order->setIdxStatus($status);
             $order->setIdxUser($user);
+            $order->setIdxAddress($address);
 
             $entityManager->persist($order);
             $entityManager->flush();

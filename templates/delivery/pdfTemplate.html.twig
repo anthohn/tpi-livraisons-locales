@@ -7,6 +7,7 @@
                 <div class="block w-full h-48 rounded-lg shadow-lg border-solid border-2 border-black">
                     <div class="flex flex-row gap-8">
                         <p class="font-medium leading-tight text-neutral-800">{{ data['address'] }}</p>
+                        <p class="font-medium leading-tight text-neutral-800">{{ data['useFirstName'] }} {{ data['useLastName'] }}</p>
                         <h5 class="text-xl font-medium leading-tight text-neutral-800">Produits :</h5>
                         {% for productName, productCount in data['productsCount'] %}
                             <p class="text-base text-neutral-600">{{ productCount }}x : {{ productName }}</p>
