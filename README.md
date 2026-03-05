@@ -26,7 +26,7 @@ Ce projet est une application de gestion de livraisons locales développée dans
 
 ### 2. Clonage et Dépendances
 
-    git clone https://github.com/votre-compte/tpi-livraisons-locales.git
+    git clone https://github.com/anthohn/tpi-livraisons-locales.git
     cd tpi-livraisons-locales
     composer install
 
