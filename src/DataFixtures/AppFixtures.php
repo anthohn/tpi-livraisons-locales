@@ -2,26 +2,18 @@
 
 namespace App\DataFixtures;
 
-
 use Faker\Factory;
 use Faker\Generator;
 use App\Entity\TTime;
-
 use App\Entity\TUser;
 use App\Entity\TTitle;
 use App\Entity\TStatus;
 use App\Entity\TProduct;
-use Faker\Provider\Image;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Form\Type\VichImageType;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-
 
 class AppFixtures extends Fixture
 {
-
     /**
      * @var Generator
      */
@@ -30,10 +22,10 @@ class AppFixtures extends Fixture
     public function __construct()
     {
         $this->faker = Factory::create('fr_FR');
-
     }
 
-    public function load(ObjectManager $manager)
+    // La correction est ici : ajout du type de retour ": void"
+    public function load(ObjectManager $manager): void
     {
         // Users
         $users = [];
@@ -121,6 +113,5 @@ class AppFixtures extends Fixture
         $manager->persist($product2);
 
         $manager->flush();
-
     }
 }
